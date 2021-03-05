@@ -14,5 +14,6 @@ public class HomeController {
     String index(final ModelMap model, final HttpServletRequest request, HttpSession session, final HttpServletResponse response) {
         return "index";
     }
+
 }
 
