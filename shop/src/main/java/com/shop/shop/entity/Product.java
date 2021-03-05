@@ -18,7 +18,7 @@ public class Product extends BaseEntity{
     @Column(name = "title")
     private String title;
 
-    @Column(name = "metaTitle")
+    @Column(name = "meta_title")
     private String metaTitle;
 
     @Column(name = "slug")
@@ -45,13 +45,13 @@ public class Product extends BaseEntity{
     @Column(name = "shop")
     private Integer shop;
 
-    @Column(name = "publishedAt")
+    @Column(name = "published_at")
     private Date publishedAt;
 
-    @Column(name = "startsAt")
+    @Column(name = "starts_at")
     private Date startsAt;
 
-    @Column(name = "endsAt")
+    @Column(name = "end_at")
     private Date endsAt;
 
     @Column(name = "content")

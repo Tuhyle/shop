@@ -1,13 +1,13 @@
-package com.shop.shop.DTO;
+package response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRequest {
-
+public class AccountDTO {
     private String firstName;
 
     private String lastName;
@@ -18,4 +18,3 @@ public class UserRequest {
 
     private String password;
 }
-

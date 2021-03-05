@@ -1,10 +1,10 @@
 package com.shop.shop.repository;
 
-import com.shop.shop.entity.User;
+import com.shop.shop.entity.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Integer> {
-    User findByEmail(String email);
+public interface AccountRepository extends JpaRepository<Account,Integer> {
+    Account findByEmail(String email);
 }

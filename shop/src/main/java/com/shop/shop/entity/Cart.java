@@ -40,6 +40,6 @@ public class Cart extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false, //
             foreignKey = @ForeignKey(name = "TRANSACTION_USER_FK"))
-    private User user;
+    private Account account;
 
 }

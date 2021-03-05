@@ -1,9 +1,9 @@
 package com.shop.shop.service.Impl;
 
-import com.shop.shop.DTO.UserRequest;
-import com.shop.shop.entity.User;
-import com.shop.shop.repository.UserRepository;
-
+import com.shop.shop.entity.Account;
+import com.shop.shop.repository.AccountRepository;
+import com.shop.shop.request.UserCreateRequest;
+import com.shop.shop.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,32 +15,33 @@ import java.util.Date;
 
 @Service
 @Slf4j
-public class UserServiceImpl implements UserService {
+public class AccountServiceImpl implements AccountService {
 
     @Autowired
-    UserRepository userRepository;
+    AccountRepository userRepository;
 
     @Override
-    public void registerUser(UserRequest userRequest) {
+    public void registerUser(UserCreateRequest userRequest) {
         try{
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            User check = userRepository.findByEmail(userRequest.getEmail());
-            if (check != null) {
+            Account account = userRepository.findByEmail(userRequest.getEmail());
+            if (account != null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
             }
-            User user = User.builder()
+            Account user = Account.builder()
                     .firstName(userRequest.getFirstName())
                     .lastName(userRequest.getLastName())
                     .email(userRequest.getEmail())
-                    .passwordHash(passwordEncoder.encode(userRequest.getPassword()))
+                    .password(passwordEncoder.encode(userRequest.getPassword()))
                     .registeredAt(new Date())
                     .admin("USER")
                     .mobile(userRequest.getMobile())
                     .build();
-            User save = userRepository.save(user);
+
+            Account save = userRepository.save(user);
             log.info("Function : Create a new user success");
         }catch (Exception e){
-            log.error("Function : Create a new user");
+            log.error("Function : Create a new user fail");
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
 
         }

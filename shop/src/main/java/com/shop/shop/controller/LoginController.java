@@ -1,7 +1,7 @@
 package com.shop.shop.controller;
 
-import com.shop.shop.DTO.UserRequest;
-import com.shop.shop.service.UserService;
+import com.shop.shop.request.UserCreateRequest;
+import com.shop.shop.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,18 +13,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/")
 public class LoginController {
     @Autowired
-    UserService userService;
+    AccountService userService;
+
     @GetMapping  ("/login")
     public String login() {
         return "login";
     }
+
     @PostMapping("/register")
-    String index(@ModelAttribute("userRequest") UserRequest userRequest) {
+    String index(@ModelAttribute("userRequest") UserCreateRequest userRequest) {
         userService.registerUser(userRequest);
-        return "register";
+        return "login";
     }
     @GetMapping(value = "/register")
-    public String register(@ModelAttribute("userRequest") UserRequest userRequest) {
+    public String register(@ModelAttribute("userRequest") UserCreateRequest userRequest) {
         return "register";
     }
 }

@@ -1,5 +1,6 @@
 package com.shop.shop.config;
 
+import com.shop.shop.service.userDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,9 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @Configuration
@@ -17,15 +16,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    userDetailsServiceImpl detailsService;
+
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+
+        // Sét đặt dịch vụ để tìm kiếm User trong Database.
+        // Và sét đặt PasswordEncoder.
+        auth.userDetailsService(detailsService).passwordEncoder(passwordEncoder());
+
     }
 
     @Override
@@ -33,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
                 .antMatchers("/register","/","/login").permitAll()
-                .antMatchers("/cart/**", "/history").hasRole("EMPLOYEE")
+                .antMatchers("/cart/**", "/history").hasRole("USER")
                 .antMatchers("/admin/**").hasRole("MANAGER")
                 .and()
             .formLogin()

@@ -1,6 +1,7 @@
 package com.shop.shop.service;
 
-import com.shop.shop.repository.UserRepository;
+import com.shop.shop.entity.Account;
+import com.shop.shop.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,25 +9,26 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class userDetailsService implements UserDetailsService {
+@Service
+public class userDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    UserRepository userRepository;
+    AccountRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        com.shop.shop.entity.User user = userRepository.findByEmail(email);
-        System.out.println("Account= " + user);
+        Account account = userRepository.findByEmail(email);
+        System.out.println("Account= " + account);
 
-        if (user == null) {
+        if (account == null) {
             throw new UsernameNotFoundException("User " //
                     + email + " was not found in the database");
         }
 
         // EMPLOYEE,MANAGER,..
-        String role = user.getAdmin();
+        String role = account.getAdmin();
 
         List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
 
@@ -35,14 +37,13 @@ public class userDetailsService implements UserDetailsService {
 
         grantList.add(authority);
 
-
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
 
-        UserDetails userDetails = (UserDetails) new User(user.getPasswordHash(),
-                user.getEmail(), accountNonExpired,
-                 accountNonLocked, credentialsNonExpired,true,grantList);
+        UserDetails userDetails = (UserDetails) new User(account.getEmail(), //
+                account.getPassword(), true, accountNonExpired, //
+                credentialsNonExpired, accountNonLocked, grantList);
 
         return userDetails;
     }
