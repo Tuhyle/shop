@@ -19,11 +19,8 @@ public class Category{
     @Column(name = "title")
     private String title;
 
-    @Column(name = "metaTitle")
+    @Column(name = "meta_title")
     private String metaTitle;
-
-    @Column(name = "slug")
-    private String slug;
 
     @Column(name = "content")
     private String content;

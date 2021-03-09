@@ -21,17 +21,11 @@ public class Product extends BaseEntity{
     @Column(name = "meta_title")
     private String metaTitle;
 
-    @Column(name = "slug")
-    private String slug;
-
     @Column(name = "summary")
     private String summary;
 
     @Column(name = "type")
     private Integer type;
-
-    @Column(name = "sku")
-    private String sku;
 
     @Column(name = "price")
     private Double price;
@@ -56,4 +50,7 @@ public class Product extends BaseEntity{
 
     @Column(name = "content")
     private String content;
+
+    @Column(name = "photo")
+    private String photo;
 }
