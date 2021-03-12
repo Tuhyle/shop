@@ -4,12 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "cart_item")
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartItem extends BaseEntity {
+public class CartItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
 
     @Column(name = "sku")
     private String sku;
@@ -28,6 +33,12 @@ public class CartItem extends BaseEntity {
 
     @Column(name = "content")
     private String content;
+
+    @Column(name = "create_at")
+    private Date createAt;
+
+    @Column(name = "update_at")
+    private Date updateAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cartId", nullable = false, //

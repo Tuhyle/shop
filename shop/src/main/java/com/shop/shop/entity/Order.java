@@ -5,13 +5,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "order")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order extends BaseEntity{
+public class Order{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
 
     @Column(name = "token")
     private String token;
@@ -72,6 +77,12 @@ public class Order extends BaseEntity{
 
     @Column(name = "content")
     private String content;
+
+    @Column(name = "created_at")
+    private Date createAt;
+
+    @Column(name = "updated_at")
+    private Date updateAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false, //

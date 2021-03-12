@@ -1,18 +1,21 @@
-package com.shop.shop.request;
+package response;
 
+import com.shop.shop.entity.Category;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
+@Builder
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class ProductRequest {
+@NoArgsConstructor
+public class ProductDTO {
+    private Integer id;
 
-    private String title;
+    private String name;
 
     private String metaTitle;
 
@@ -26,6 +29,8 @@ public class ProductRequest {
 
     private Integer quantity;
 
+    private Integer shop;
+
     private Date publishedAt;
 
     private Date startsAt;
@@ -34,7 +39,7 @@ public class ProductRequest {
 
     private String content;
 
-    private MultipartFile photos;
+    private String photo;
 
-    private Integer categoryId;
+    private Category category;
 }

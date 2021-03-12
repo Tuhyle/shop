@@ -7,7 +7,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.Instant;
@@ -15,9 +14,6 @@ import java.time.Instant;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity implements Serializable {
-    @Id
-    @Column(name = "id")
-    private Integer id;
 
     @CreatedDate
     @Column(name = "createdAt", updatable = false)

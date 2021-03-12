@@ -3,11 +3,16 @@ package com.shop.shop.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "order_item")
 @Data
-public class OrderItem extends BaseEntity{
+public class OrderItem{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
 
     @Column(name = "sku")
     private String sku;
@@ -23,6 +28,12 @@ public class OrderItem extends BaseEntity{
 
     @Column(name = "content")
     private String content;
+
+    @Column(name = "create_at")
+    private Date createAt;
+
+    @Column(name = "update_at")
+    private Date updateAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orderId", nullable = false, //

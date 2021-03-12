@@ -12,7 +12,12 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductReview extends BaseEntity{
+public class ProductReview{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
+
     @Column(name = "title")
     private String title;
 
@@ -27,6 +32,12 @@ public class ProductReview extends BaseEntity{
 
     @Column(name = "content")
     private String content;
+
+    @Column(name = "create_at")
+    private Date createAt;
+
+    @Column(name = "update_at")
+    private Date updateAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "productId", nullable = false, //

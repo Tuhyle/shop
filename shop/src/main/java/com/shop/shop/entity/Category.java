@@ -13,11 +13,12 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Category{
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "meta_title")
     private String metaTitle;
