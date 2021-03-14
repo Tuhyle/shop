@@ -1,6 +1,7 @@
 package com.shop.shop.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -10,29 +11,12 @@ import java.util.Date;
 @Table(name = "cart_item")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-
-    @Column(name = "sku")
-    private String sku;
-
-    @Column(name = "price")
-    private Double price;
-
-    @Column(name = "discount")
-    private Double discount;
-
-    @Column(name = "quantity")
-    private Integer quantity;
-
-    @Column(name = "active")
-    private Boolean active;
-
-    @Column(name = "content")
-    private String content;
 
     @Column(name = "create_at")
     private Date createAt;

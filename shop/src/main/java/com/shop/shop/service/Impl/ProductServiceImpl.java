@@ -106,4 +106,35 @@ public class ProductServiceImpl implements ProductService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "not logged in");
         }
     }
+
+    @Override
+    public Page<ProductDTO> searchByCategory(Pageable pageable, Integer categoryId) {
+        try {
+            Page<Product> productPage;
+            if (categoryId != null) {
+                productPage=productRepository.findAllBy(pageable);
+            }else {
+                productPage=productRepository.findAllByCategoryId(categoryId,pageable);
+            }
+            Page<ProductDTO> productDTOS = productPage.map(product -> {
+                ProductDTO productDTO = ModelMapperUtils.map(product, ProductDTO.class);
+                for (Product item : productPage) {
+                    PhotoProduct photoProduct1 = photoProductRepository.findByProductId(item.getId());
+                    if(photoProduct1==null){
+                        productDTO.setPhoto(getFileURL("default.jpg"));
+                    }else {
+                        productDTO.setPhoto(getFileURL(photoProduct1.getFileName()));
+                    }
+                }
+                return productDTO;
+            });
+            log.info("getList product success");
+            return productDTOS;
+        } catch (Exception e) {
+            log.error("getList product fail", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }

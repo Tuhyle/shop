@@ -1,6 +1,7 @@
 package com.shop.shop.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +13,8 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cart{
+@Builder
+public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +24,6 @@ public class Cart{
     @Column(name = "firstName")
     private String firstName;
 
-    @Column(name = "middleName")
-    private String middleName;
-
     @Column(name = "lastName")
     private String lastName;
 
@@ -33,15 +32,6 @@ public class Cart{
 
     @Column(name = "email")
     private String email;
-
-    @Column(name = "province")
-    private String province;
-
-    @Column(name = "country")
-    private String country;
-
-    @Column(name = "content")
-    private String content;
 
     @Column(name = "create_at")
     private Date createAt;

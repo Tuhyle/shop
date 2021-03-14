@@ -30,7 +30,6 @@ public class ProductController {
         model.addAttribute("products", productDTO);
         return "admin/product_view";
     }
-    // GET: Hiển thị trang form upload
     @GetMapping("/add_product")
     public String getCreate(Model model) {
 
