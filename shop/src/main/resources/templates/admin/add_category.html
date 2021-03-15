@@ -27,24 +27,41 @@
 <div id="wrapper">
     <!-- NAVBAR -->
     <div th:replace="~{fragments/header_admin :: header}">Header</div>
-    <!-- END NAVBAR -->
-    <!-- MAIN -->
     <div class="main">
-        <form th:object="${category}" method="post" th:action="@{/admin/add_category}">
-            <label th:text="'Mã Loại'"></label>
-            <input type="text" th:field="*{id}"/>
-            <label th:text="'Title'"></label>
-            <input type="text" th:field="*{title}"/>
-            <label th:text="'Meta Title'"></label>
-            <input type="text" th:field="*{metaTitle}"/>
-            <label th:text="'Content'"></label>
-            <input type="text" th:field="*{content}"/>
-            <button type="submit" class="btn btn-success">Submit</button>
-        </form>
-
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container-fluid">
+                <H2 style="align-content: center">ADD CATEGORY</H2>
+                <form id="quickForm" th:object="${category}" method="post" th:action="@{/admin/add_category}" th:method="post"
+                      enctype="multipart/form-data">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Name category</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Tên thể loại"
+                                   th:field="*{name}">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">metaTitle</label>
+                            <input type="text" class="form-control" placeholder="metaTitle" th:field="*{metaTitle}">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">content</label>
+                            <input type="text" class="form-control" placeholder="content" th:field="*{content}">
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button class="btn btn-primary"><a href="/admin/categoryList"></a>Back</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END MAIN CONTENT -->
     </div>
     <!-- END MAIN -->
-    <div class="clearfix"></div>
+    <div class=" clearfix">
+    </div>
     <footer>
         <div class="container-fluid">
             <p class="copyright">&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All
@@ -59,6 +76,7 @@
 <script th:src="@{/admin/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
 <script th:src="@{/admin/assets/vendor/chartist/js/chartist.min.js}"></script>
 <script th:src="@{/admin/assets/scripts/klorofil-common.js}"></script>
+
 <script>
     $(function () {
         var options;

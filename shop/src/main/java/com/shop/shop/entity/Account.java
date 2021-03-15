@@ -18,8 +18,8 @@ import java.util.Date;
 public class Account implements Serializable {
     private static final long serialVersionUID = -2054386655979281969L;
 
-    public static final String ROLE_MANAGER = "ADMIN";
-    public static final String ROLE_EMPLOYEE = "USER";
+    public static final String ROLE_MANAGER = "MANAGER";
+    public static final String ROLE_EMPLOYEE = "EMPLOYEE";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -40,8 +40,8 @@ public class Account implements Serializable {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "admin")
-    private String admin;
+    @Column(name = "user_role")
+    private String userRole;
 
     @Column(name = "registered_at")
     private Date registeredAt;

@@ -5,6 +5,7 @@ spring:
     password: 231078
     initialization-mode: always
 
+
   jpa:
     properties:
       hibernate:

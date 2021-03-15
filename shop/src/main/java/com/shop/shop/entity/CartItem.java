@@ -18,10 +18,10 @@ public class CartItem {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "create_at")
+    @Column(name = "created_at")
     private Date createAt;
 
-    @Column(name = "update_at")
+    @Column(name = "updated_at")
     private Date updateAt;
 
     @ManyToOne(fetch = FetchType.LAZY)

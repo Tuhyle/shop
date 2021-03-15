@@ -2,6 +2,8 @@ package com.shop.shop.controller;
 
 import com.shop.shop.entity.Category;
 import com.shop.shop.repository.CategoryRepository;
+import com.shop.shop.request.AddCartRequest;
+import com.shop.shop.service.CartService;
 import com.shop.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,8 @@ public class HomeController {
 
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    CartService cartService;
 
     @GetMapping(value = {"/"})
     String index(Model model, @Param("search") String search, Pageable pageable) {

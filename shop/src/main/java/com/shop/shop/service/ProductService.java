@@ -8,5 +8,6 @@ import response.ProductDTO;
 public interface ProductService {
     Page<ProductDTO> search(String search, Pageable pageable);
     ProductDTO create(ProductRequest productRequest);
+    ProductDTO edit(ProductRequest productRequest, Integer productId);
     Page<ProductDTO> searchByCategory(Pageable pageable, Integer categoryId);
 }

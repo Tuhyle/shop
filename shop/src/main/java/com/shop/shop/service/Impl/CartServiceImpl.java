@@ -53,6 +53,7 @@ public class CartServiceImpl implements CartService {
                         .firstName(account.getFirstName())
                         .lastName(account.getLastName())
                         .mobile(account.getMobile())
+                        .createAt(new Date())
                         .build();
                 Cart cartSave = cartRepository.save(cart);
                 Optional<Product> product = productRepository.findById(addCartRequest.getProductId());
@@ -68,7 +69,7 @@ public class CartServiceImpl implements CartService {
             }
             return null;
         } catch (Exception e) {
-            log.info("Create product fail");
+            log.info("Create product fail",e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "not logged in");
         }
     }

@@ -28,7 +28,7 @@ public class userDetailsServiceImpl implements UserDetailsService {
         }
 
         // EMPLOYEE,MANAGER,..
-        String role = account.getAdmin();
+        String role = account.getUserRole();
 
         List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
 
@@ -44,7 +44,7 @@ public class userDetailsServiceImpl implements UserDetailsService {
         UserDetails userDetails = (UserDetails) new User(account.getEmail(), //
                 account.getPassword(), true, accountNonExpired, //
                 credentialsNonExpired, accountNonLocked, grantList);
-
+        System.out.println(userDetails);
         return userDetails;
     }
 }

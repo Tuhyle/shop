@@ -34,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
                     .email(userRequest.getEmail())
                     .password(passwordEncoder.encode(userRequest.getPassword()))
                     .registeredAt(new Date())
-                    .admin("USER")
+                    .userRole("ROLE_EMPLOYEE")
                     .mobile(userRequest.getMobile())
                     .build();
 

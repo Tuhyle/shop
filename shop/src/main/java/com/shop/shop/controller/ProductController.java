@@ -1,6 +1,10 @@
 package com.shop.shop.controller;
 
+import com.shop.shop.entity.PhotoProduct;
+import com.shop.shop.entity.Product;
 import com.shop.shop.repository.CategoryRepository;
+import com.shop.shop.repository.PhotoProductRepository;
+import com.shop.shop.repository.ProductRepository;
 import com.shop.shop.request.ProductRequest;
 import com.shop.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +14,25 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import response.ProductDTO;
+
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/admin")
 public class ProductController {
     @Autowired
     ProductService productService;
+
+    @Autowired
+    ProductRepository productRepository;
+
+    @Autowired
+    PhotoProductRepository photoProductRepository;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -31,12 +45,40 @@ public class ProductController {
         return "admin/product_view";
     }
     @GetMapping("/add_product")
-    public String getCreate(Model model) {
+    public String add(Model model) {
 
         ProductRequest productRequest = new ProductRequest();
         model.addAttribute("productRequest", productRequest);
         model.addAttribute("category", categoryRepository.findAll());
         return "admin/add_product";
+    }
+    @GetMapping("/edit_product/{productId}")
+    public String get(Model model,@PathVariable("productId") Integer productId) {
+        Optional<Product> product=productRepository.findById(productId);
+        List<PhotoProduct> productList=photoProductRepository.findAllByProductId(productId);
+        ProductRequest productRequest = ProductRequest.builder()
+                .name(product.get().getName())
+                .metaTitle(product.get().getMetaTitle())
+                .summary(product.get().getSummary())
+                .type(product.get().getType())
+                .price(product.get().getPrice())
+                .discount(product.get().getDiscount())
+                .quantity(product.get().getQuantity())
+                .content(product.get().getContent())
+                .categoryId(product.get().getCategory().getId())
+                .build();
+        productRequest.setId(productId);
+        model.addAttribute("productRequest", productRequest);
+        model.addAttribute("category", categoryRepository.findAll());
+        return "admin/edit_product";
+    }
+    @PostMapping("/edit_product")
+    public String edit(Model model) {
+        ProductRequest productRequest = new ProductRequest();
+        model.addAttribute("productRequest", productRequest);
+        model.addAttribute("category", categoryRepository.findAll());
+        productService.edit(productRequest,productRequest.getId());
+        return "redirect:/admin/product_view";
     }
 
     @PostMapping("/add_product")
