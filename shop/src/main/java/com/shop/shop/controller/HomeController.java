@@ -1,18 +1,27 @@
 package com.shop.shop.controller;
 
+import com.shop.shop.entity.Account;
+import com.shop.shop.entity.Cart;
+import com.shop.shop.entity.CartItem;
 import com.shop.shop.entity.Category;
-import com.shop.shop.repository.CategoryRepository;
-import com.shop.shop.request.AddCartRequest;
+import com.shop.shop.repository.*;
 import com.shop.shop.service.CartService;
 import com.shop.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import response.ProductDTO;
 
 import java.util.List;
@@ -24,24 +33,65 @@ public class HomeController {
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    CartItemRepository cartItemRepository;
+
+    @Autowired
+    CartRepository cartRepository;
+
+    @Autowired
+    AccountRepository accountRepository;
+
+    @Autowired
+    ProductRepository productRepository;
+
     @Autowired
     CartService cartService;
 
-    @GetMapping(value = {"/"})
-    String index(Model model, @Param("search") String search, Pageable pageable) {
+    @GetMapping(value = {"/home"})
+    String index(Model model, @Param("search") String search,@PageableDefault(size = 8, sort = "id",
+            direction = Sort.Direction.DESC) Pageable pageable) {
         model.addAttribute("search", search);
         Page<ProductDTO> productDTO = productService.search(search,pageable);
         model.addAttribute("products", productDTO);
         return "index";
     }
-    @GetMapping(value = {"/product"})
-    String listProduct(Model model,@Param("search") String search,Pageable pageable) {
+    @GetMapping(value = {"/product-grid"})
+    String listProduct(Model model,@Param("search") String search,@PageableDefault(size = 9, sort = "id",
+            direction = Sort.Direction.DESC) Pageable pageable) {
         List<Category> categoryList=categoryRepository.findAll();
         model.addAttribute("categories", categoryList);
         model.addAttribute("search", search);
         Page<ProductDTO> productDTO = productService.search(search,pageable);
         model.addAttribute("products", productDTO);
         return "product-grid";
+    }
+    @GetMapping(value = {"/product-detail/{productId}"})
+    String getProductById(Model model,@PathVariable("productId") Integer productId,@Param("search") String search, Pageable pageable) {
+        ProductDTO productDTO = productService.detail(productId);
+        model.addAttribute("productDTO", productDTO);
+        Page<ProductDTO> productDTOs = productService.search(search,pageable);
+        model.addAttribute("products", productDTOs);
+        return "product-details";
+    }
+    @PostMapping(value = {"/cartItem-quantity"})
+    String updateQuantity(@RequestParam("quantity") Integer quantity,
+                          @RequestParam("id") Integer id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            Account account = accountRepository.findByEmail(authentication.getName());
+            Cart cart = cartRepository.findByAccountId(account.getId());
+            CartItem cartItem=cartItemRepository.findByCartIdAndProductId(cart.getId(),id);
+            cartItem.setQuantity(quantity);
+            cartItemRepository.save(cartItem);
+        }
+        return "redirect:cart/cart-view";
+    }
+    @GetMapping("/remove-cartItem/{cartItemId}")
+    public String viewRemove(@PathVariable("cartItemId") Integer cartItemId) {
+        cartItemRepository.deleteById(cartItemId);
+        return "redirect:cart/cart-view";
     }
     @GetMapping(value = {"/product/{categoryId}"})
     String listProductByCategory(Model model,@PathVariable("categoryId") Integer categoryId,Pageable pageable) {
@@ -51,6 +101,5 @@ public class HomeController {
         model.addAttribute("products", productDTO);
         return "product-grid";
     }
-
 }
 

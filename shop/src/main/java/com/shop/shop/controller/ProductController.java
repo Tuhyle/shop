@@ -13,13 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import response.ProductDTO;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -46,16 +42,15 @@ public class ProductController {
     }
     @GetMapping("/add_product")
     public String add(Model model) {
-
         ProductRequest productRequest = new ProductRequest();
         model.addAttribute("productRequest", productRequest);
         model.addAttribute("category", categoryRepository.findAll());
-        return "admin/add_product";
+        return "redirect:admin/product_view";
     }
     @GetMapping("/edit_product/{productId}")
     public String get(Model model,@PathVariable("productId") Integer productId) {
         Optional<Product> product=productRepository.findById(productId);
-        List<PhotoProduct> productList=photoProductRepository.findAllByProductId(productId);
+        PhotoProduct productList=photoProductRepository.findAllByProductId(productId);
         ProductRequest productRequest = ProductRequest.builder()
                 .name(product.get().getName())
                 .metaTitle(product.get().getMetaTitle())
@@ -83,7 +78,7 @@ public class ProductController {
 
     @PostMapping("/add_product")
     public String createProduct(ProductRequest productRequest) {
-        productService.create(productRequest);
+        ProductDTO productDTO=productService.create(productRequest);
         return "admin/add_product";
     }
 }

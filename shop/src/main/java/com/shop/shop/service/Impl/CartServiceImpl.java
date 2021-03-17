@@ -1,7 +1,10 @@
 package com.shop.shop.service.Impl;
 
 import com.shop.shop.common.ModelMapperUtils;
-import com.shop.shop.entity.*;
+import com.shop.shop.entity.Account;
+import com.shop.shop.entity.Cart;
+import com.shop.shop.entity.CartItem;
+import com.shop.shop.entity.Product;
 import com.shop.shop.repository.AccountRepository;
 import com.shop.shop.repository.CartItemRepository;
 import com.shop.shop.repository.CartRepository;
@@ -16,7 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import response.CartDTO;
-import response.ProductDTO;
 
 import java.util.Date;
 import java.util.Optional;
@@ -46,30 +48,27 @@ public class CartServiceImpl implements CartService {
             CartDTO cartDTO;
             if (!(authentication instanceof AnonymousAuthenticationToken)) {
                 Account account = accountRepository.findByEmail(authentication.getName());
-                Cart cart = Cart.builder()
-                        .account(account)
-                        .createAt(new Date())
-                        .email(account.getEmail())
-                        .firstName(account.getFirstName())
-                        .lastName(account.getLastName())
-                        .mobile(account.getMobile())
-                        .createAt(new Date())
-                        .build();
-                Cart cartSave = cartRepository.save(cart);
+                Cart cart = cartRepository.findByAccountId(account.getId());
                 Optional<Product> product = productRepository.findById(addCartRequest.getProductId());
-                CartItem cartItem = CartItem.builder()
-                        .cart(cartSave)
-                        .product(product.get())
-                        .createAt(new Date())
-                        .build();
+                CartItem cartItem=cartItemRepository.findByCartIdAndProductId(cart.getId(),product.get().getId());
+                if(cartItem==null){
+                     cartItem = CartItem.builder()
+                            .cart(cart)
+                            .product(product.get())
+                             .quantity(1)
+                            .createAt(new Date())
+                            .build();
+                }else{
+                    cartItem.setQuantity(cartItem.getQuantity()+1);
+                }
                 cartItemRepository.save(cartItem);
-                cartDTO = ModelMapperUtils.map(cartSave, CartDTO.class);
-                log.info("function : create product success");
+                cartDTO = ModelMapperUtils.map(cart, CartDTO.class);
+                log.info("function : create cartItem success");
                 return cartDTO;
             }
             return null;
         } catch (Exception e) {
-            log.info("Create product fail",e);
+            log.info("Create cart item fail", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "not logged in");
         }
     }

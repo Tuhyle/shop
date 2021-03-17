@@ -18,6 +18,13 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             + " OR p.metaTitle LIKE %?1%"
             + " OR CONCAT(p.price, '') LIKE %?1%")
     Page<Product> search(String keyword, Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE p.name LIKE %?1%"
+            + " OR p.name LIKE %?1%"
+            + " OR p.metaTitle LIKE %?1%"
+            + " OR CONCAT(p.price, '') LIKE %?1%")
+    List<Product> search2(String keyword);
+
     Page<Product> findAllByCategoryId(Integer categoryId, Pageable pageable);
 
     Page<Product> findAllBy(Pageable pageable);

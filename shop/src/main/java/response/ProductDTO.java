@@ -41,5 +41,7 @@ public class ProductDTO {
 
     private String photo;
 
+    private String giaGiam;
+
     private Category category;
 }

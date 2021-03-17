@@ -37,7 +37,7 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Name Product</label>
                             <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Tên sản phẩm"
-                                   th:field="*{name}">
+                                   th:field="*{name}" required>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">summary</label>
@@ -108,6 +108,7 @@
 <script th:src="@{/admin/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
 <script th:src="@{/admin/assets/vendor/chartist/js/chartist.min.js}"></script>
 <script th:src="@{/admin/assets/scripts/klorofil-common.js}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
 
 <script>
     $(function () {

@@ -1,7 +1,6 @@
 package com.shop.shop.service.Impl;
 
 import com.shop.shop.common.ModelMapperUtils;
-import com.shop.shop.entity.Category;
 import com.shop.shop.entity.PhotoProduct;
 import com.shop.shop.entity.Product;
 import com.shop.shop.repository.CategoryRepository;
@@ -20,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import response.ProductDTO;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -60,12 +60,14 @@ public class ProductServiceImpl implements ProductService {
             }
             Page<ProductDTO> productDTOS = productPage.map(product -> {
                 ProductDTO productDTO = ModelMapperUtils.map(product, ProductDTO.class);
-                List<PhotoProduct> photoProduct = photoProductRepository.findAllByProductId(productDTO.getId());
+                PhotoProduct photoProduct = photoProductRepository.findAllByProductId(productDTO.getId());
                 if(photoProduct==null){
                     productDTO.setPhoto(getFileURL("default.jpg"));
                 }else {
-                    productDTO.setPhoto(getFileURL(photoProduct.get(0).getFileName()));
+                    productDTO.setPhoto(getFileURL(photoProduct.getFileName()));
                 }
+                String giaGiam=productDTO.getPrice()*(1-productDTO.getDiscount())/100+ "VNĐ";
+                productDTO.setGiaGiam(giaGiam);
                 return productDTO;
             });
             log.info("getList product success");
@@ -111,14 +113,14 @@ public class ProductServiceImpl implements ProductService {
             product.setUpdateAt(new Date());
             product=setEdit(product, productRequest);
             Product update = productRepository.save(product);
-            PhotoProduct photoProduct1=new PhotoProduct();
+            PhotoProduct photoProduct1=photoProductRepository.findAllByProductId(productId);
             if (productRequest.getPhotos() != null) {
-                PhotoProduct photoProduct = PhotoProduct.builder()
+                photoProduct1 = PhotoProduct.builder()
                         .fileName(photoProductService.storeFile(productRequest.getPhotos()))
                         .fileNameBlank("default.jpg")
                         .product(product)
                         .build();
-                photoProduct1 = photoProductRepository.save(photoProduct);
+                photoProduct1 = photoProductRepository.save(photoProduct1);
             }
             ProductDTO productDTO = ModelMapperUtils.map(update, ProductDTO.class);
             productDTO.setPhoto(getFileURL(photoProduct1.getFileName()));
@@ -165,11 +167,11 @@ public class ProductServiceImpl implements ProductService {
             Page<ProductDTO> productDTOS = productPage.map(product -> {
                 ProductDTO productDTO = ModelMapperUtils.map(product, ProductDTO.class);
                 for (Product item : productPage) {
-                    List<PhotoProduct> photoProduct1 = photoProductRepository.findAllByProductId(item.getId());
+                    PhotoProduct photoProduct1 = photoProductRepository.findAllByProductId(item.getId());
                     if(photoProduct1==null){
                         productDTO.setPhoto(getFileURL("default.jpg"));
                     }else {
-                        productDTO.setPhoto(getFileURL(photoProduct1.get(0).getFileName()));
+                        productDTO.setPhoto(getFileURL(photoProduct1.getFileName()));
                     }
                 }
                 return productDTO;
@@ -182,5 +184,51 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    @Override
+    public ProductDTO detail(Integer productId) {
+        Optional<Product> product=productRepository.findById(productId);
+        ProductDTO productDTO = ModelMapperUtils.map(product, ProductDTO.class);
+        if(!product.isPresent()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product does not exits");
+        }
+        PhotoProduct photoProduct = photoProductRepository.findAllByProductId(product.get().getId());
+        if(photoProduct==null){
+            productDTO.setPhoto(getFileURL("default.jpg"));
+        }else {
+            productDTO.setPhoto(getFileURL(photoProduct.getFileName()));
+        }
+        String giaGiam=product.get().getPrice()*(1-product.get().getDiscount())/100+ "VNĐ";
+        productDTO.setGiaGiam(giaGiam);
+        return productDTO;
+    }
 
+    @Override
+    public List<ProductDTO> search2(String search) {
+        try {
+            List<Product> productPage;
+            if (search != null) {
+                productPage=productRepository.search2(search);
+            }else {
+                productPage=productRepository.findAll();
+            }
+            List<ProductDTO> productDTOS=new ArrayList<>();
+            for (Product item:productPage) {
+                ProductDTO productDTO = ModelMapperUtils.map(item, ProductDTO.class);
+                PhotoProduct photoProduct = photoProductRepository.findAllByProductId(item.getId());
+                if(photoProduct==null){
+                    productDTO.setPhoto(getFileURL("default.jpg"));
+                }else {
+                    productDTO.setPhoto(getFileURL(photoProduct.getFileName()));
+                }
+                String giaGiam=productDTO.getPrice()*(1-productDTO.getDiscount())/100+ "$";
+                productDTO.setGiaGiam(giaGiam);
+                productDTOS.add(productDTO);
+            }
+            log.info("getList product success");
+            return productDTOS;
+        } catch (Exception e) {
+            log.error("getList product fail", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
