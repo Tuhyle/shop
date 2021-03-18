@@ -13,6 +13,5 @@ public interface ProductService {
     ProductDTO edit(ProductRequest productRequest, Integer productId);
     Page<ProductDTO> searchByCategory(Pageable pageable, Integer categoryId);
     ProductDTO detail(Integer productId);
-
-    List<ProductDTO> search2(String search);
+    Page<ProductDTO> search2(String search, Integer categoryId, Pageable pageable);
 }

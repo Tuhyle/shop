@@ -47,8 +47,8 @@ public class ProductController {
         model.addAttribute("category", categoryRepository.findAll());
         return "redirect:admin/product_view";
     }
-    @GetMapping("/edit_product/{productId}")
-    public String get(Model model,@PathVariable("productId") Integer productId) {
+    @GetMapping("/edit_product")
+    public String get(Model model,@RequestParam("productId") Integer productId) {
         Optional<Product> product=productRepository.findById(productId);
         PhotoProduct productList=photoProductRepository.findAllByProductId(productId);
         ProductRequest productRequest = ProductRequest.builder()

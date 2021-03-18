@@ -59,11 +59,11 @@ public class HomeController {
     }
     @GetMapping(value = {"/product-grid"})
     String listProduct(Model model,@Param("search") String search,@PageableDefault(size = 9, sort = "id",
-            direction = Sort.Direction.DESC) Pageable pageable) {
+            direction = Sort.Direction.DESC) Pageable pageable,@RequestParam("categoryId") Integer categoryId) {
         List<Category> categoryList=categoryRepository.findAll();
         model.addAttribute("categories", categoryList);
         model.addAttribute("search", search);
-        Page<ProductDTO> productDTO = productService.search(search,pageable);
+        Page<ProductDTO> productDTO = productService.search2(search,categoryId,pageable);
         model.addAttribute("products", productDTO);
         return "product-grid";
     }
@@ -71,8 +71,6 @@ public class HomeController {
     String getProductById(Model model,@PathVariable("productId") Integer productId,@Param("search") String search, Pageable pageable) {
         ProductDTO productDTO = productService.detail(productId);
         model.addAttribute("productDTO", productDTO);
-        Page<ProductDTO> productDTOs = productService.search(search,pageable);
-        model.addAttribute("products", productDTOs);
         return "product-details";
     }
     @PostMapping(value = {"/cartItem-quantity"})
@@ -93,13 +91,13 @@ public class HomeController {
         cartItemRepository.deleteById(cartItemId);
         return "redirect:cart/cart-view";
     }
-    @GetMapping(value = {"/product/{categoryId}"})
-    String listProductByCategory(Model model,@PathVariable("categoryId") Integer categoryId,Pageable pageable) {
-        List<Category> categoryList=categoryRepository.findAll();
-        model.addAttribute("categories", categoryList);
-        Page<ProductDTO> productDTO = productService.searchByCategory(pageable,categoryId);
-        model.addAttribute("products", productDTO);
-        return "product-grid";
-    }
+//    @GetMapping(value = {"/product-grid/{categoryId}"})
+//    String listProductByCategory(Model model,@PathVariable("categoryId") Integer categoryId,Pageable pageable) {
+//        List<Category> categoryList=categoryRepository.findAll();
+//        model.addAttribute("categories", categoryList);
+//        Page<ProductDTO> productDTO = productService.searchByCategory(pageable,categoryId);
+//        model.addAttribute("products", productDTO);
+//        return "product-grid";
+//    }
 }
 

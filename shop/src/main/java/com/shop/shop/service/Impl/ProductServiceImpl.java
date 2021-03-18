@@ -203,27 +203,29 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> search2(String search) {
+    public Page<ProductDTO> search2(String search,Integer categoryId, Pageable pageable) {
         try {
-            List<Product> productPage;
-            if (search != null) {
-                productPage=productRepository.search2(search);
-            }else {
-                productPage=productRepository.findAll();
+            Page<Product> productPage;
+            if (search != null && categoryId != null) {
+                productPage = productRepository.search2(search, categoryId, pageable);
+            }else if(search == null && categoryId == null){
+                productPage = productRepository.findAllBy(pageable);
             }
-            List<ProductDTO> productDTOS=new ArrayList<>();
-            for (Product item:productPage) {
-                ProductDTO productDTO = ModelMapperUtils.map(item, ProductDTO.class);
-                PhotoProduct photoProduct = photoProductRepository.findAllByProductId(item.getId());
-                if(photoProduct==null){
+            else {
+                productPage = productRepository.findAllByCategoryId(categoryId,pageable);
+            }
+            Page<ProductDTO> productDTOS = productPage.map(product -> {
+                ProductDTO productDTO = ModelMapperUtils.map(product, ProductDTO.class);
+                PhotoProduct photoProduct = photoProductRepository.findAllByProductId(productDTO.getId());
+                if (photoProduct == null) {
                     productDTO.setPhoto(getFileURL("default.jpg"));
-                }else {
+                } else {
                     productDTO.setPhoto(getFileURL(photoProduct.getFileName()));
                 }
-                String giaGiam=productDTO.getPrice()*(1-productDTO.getDiscount())/100+ "$";
+                String giaGiam = productDTO.getPrice() * (1 - productDTO.getDiscount()) / 100 + "VNĐ";
                 productDTO.setGiaGiam(giaGiam);
-                productDTOS.add(productDTO);
-            }
+                return productDTO;
+            });
             log.info("getList product success");
             return productDTOS;
         } catch (Exception e) {
@@ -231,4 +233,34 @@ public class ProductServiceImpl implements ProductService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+//    @Override
+//    public List<ProductDTO> search2(String search) {
+//        try {
+//            List<Product> productPage;
+//            if (search != null) {
+//                productPage=productRepository.search2(search);
+//            }else {
+//                productPage=productRepository.findAll();
+//            }
+//            List<ProductDTO> productDTOS=new ArrayList<>();
+//            for (Product item:productPage) {
+//                ProductDTO productDTO = ModelMapperUtils.map(item, ProductDTO.class);
+//                PhotoProduct photoProduct = photoProductRepository.findAllByProductId(item.getId());
+//                if(photoProduct==null){
+//                    productDTO.setPhoto(getFileURL("default.jpg"));
+//                }else {
+//                    productDTO.setPhoto(getFileURL(photoProduct.getFileName()));
+//                }
+//                String giaGiam=productDTO.getPrice()*(1-productDTO.getDiscount())/100+ "$";
+//                productDTO.setGiaGiam(giaGiam);
+//                productDTOS.add(productDTO);
+//            }
+//            log.info("getList product success");
+//            return productDTOS;
+//        } catch (Exception e) {
+//            log.error("getList product fail", e);
+//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 }
