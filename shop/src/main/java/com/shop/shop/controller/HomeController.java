@@ -5,6 +5,7 @@ import com.shop.shop.entity.Cart;
 import com.shop.shop.entity.CartItem;
 import com.shop.shop.entity.Category;
 import com.shop.shop.repository.*;
+import com.shop.shop.service.CartItemService;
 import com.shop.shop.service.CartService;
 import com.shop.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import response.CartItemDTO;
 import response.ProductDTO;
 
 import java.util.List;
@@ -49,6 +51,9 @@ public class HomeController {
     @Autowired
     CartService cartService;
 
+    @Autowired
+    CartItemService cartItemService;
+
     @GetMapping(value = {"/home"})
     String index(Model model, @Param("search") String search,@PageableDefault(size = 8, sort = "id",
             direction = Sort.Direction.DESC) Pageable pageable) {
@@ -59,7 +64,7 @@ public class HomeController {
     }
     @GetMapping(value = {"/product-grid"})
     String listProduct(Model model,@Param("search") String search,@PageableDefault(size = 9, sort = "id",
-            direction = Sort.Direction.DESC) Pageable pageable,@RequestParam("categoryId") Integer categoryId) {
+            direction = Sort.Direction.DESC) Pageable pageable,@RequestParam(value = "categoryId", required = false) Integer categoryId) {
         List<Category> categoryList=categoryRepository.findAll();
         model.addAttribute("categories", categoryList);
         model.addAttribute("search", search);
@@ -91,13 +96,5 @@ public class HomeController {
         cartItemRepository.deleteById(cartItemId);
         return "redirect:cart/cart-view";
     }
-//    @GetMapping(value = {"/product-grid/{categoryId}"})
-//    String listProductByCategory(Model model,@PathVariable("categoryId") Integer categoryId,Pageable pageable) {
-//        List<Category> categoryList=categoryRepository.findAll();
-//        model.addAttribute("categories", categoryList);
-//        Page<ProductDTO> productDTO = productService.searchByCategory(pageable,categoryId);
-//        model.addAttribute("products", productDTO);
-//        return "product-grid";
-//    }
 }
 

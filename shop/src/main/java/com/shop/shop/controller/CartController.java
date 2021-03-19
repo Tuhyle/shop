@@ -42,4 +42,11 @@ public  class CartController {
         model.addAttribute("cartItemDTOS",cartItemDTOS);
         return "cart";
     }
+    @GetMapping(value = "/menu")
+    public String menu(Model model,@PageableDefault(size = 8, sort = "id",
+            direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<CartItemDTO> cartItemDTOS =cartItemService.getAllProductByCart(pageable);
+        model.addAttribute("cartItemDTOS",cartItemDTOS);
+        return "fragments/menu";
+    }
 }
