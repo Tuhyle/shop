@@ -9,11 +9,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Autowired
     userDetailsServiceImpl detailsService;
@@ -31,23 +33,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(detailsService).passwordEncoder(passwordEncoder());
 
     }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests()
-                .antMatchers("/register","/","/login").permitAll()
-                .antMatchers("/cart/**").hasRole("EMPLOYEE")
-                .antMatchers("/admin/**").hasRole("admin")
-                .and()
-            .formLogin()
+        http.csrf().disable();
+
+        // Các yêu cầu phải login với vai trò ROLE_EMPLOYEE hoặc ROLE_MANAGER.
+        // Nếu chưa login, nó sẽ redirect tới trang /admin/login.
+        http.authorizeRequests().antMatchers("/cart/**","/order/**","/admin/**")//
+                .access("hasAnyRole('ROLE_EMPLOYEE', 'ROLE_MANAGER')");
+
+        // Các trang chỉ dành cho MANAGER
+        http.authorizeRequests().antMatchers("/admin/product_view").access("hasRole('ROLE_MANAGER')");
+
+        // Khi người dùng đã login, với vai trò XX.
+        // Nhưng truy cập vào trang yêu cầu vai trò YY,
+        // Ngoại lệ AccessDeniedException sẽ ném ra.
+        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
+
+        // Cấu hình cho Login Form.
+        http.authorizeRequests().and().formLogin()
                 .loginPage("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/")
-                .failureUrl("/login?error")
-                .and().logout().logoutSuccessUrl("/").permitAll();
-        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
-    }
+                .defaultSuccessUrl("/home")//
+                .failureUrl("/admin/login?error=true")
+                // Cấu hình cho trang Logout.
+                // (Sau khi logout, chuyển tới trang home)
+                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/home");
 
+    }
 }

@@ -45,10 +45,10 @@ public class ProductController {
         ProductRequest productRequest = new ProductRequest();
         model.addAttribute("productRequest", productRequest);
         model.addAttribute("category", categoryRepository.findAll());
-        return "redirect:admin/product_view";
+        return "admin/add_product";
     }
-    @GetMapping("/edit_product")
-    public String get(Model model,@RequestParam("productId") Integer productId) {
+    @GetMapping("/edit_product/{productId}")
+    public String get(Model model,@PathVariable("productId") Integer productId) {
         Optional<Product> product=productRepository.findById(productId);
         PhotoProduct productList=photoProductRepository.findAllByProductId(productId);
         ProductRequest productRequest = ProductRequest.builder()
@@ -65,7 +65,7 @@ public class ProductController {
         productRequest.setId(productId);
         model.addAttribute("productRequest", productRequest);
         model.addAttribute("category", categoryRepository.findAll());
-        return "admin/edit_product";
+        return "/admin/edit_product";
     }
     @PostMapping("/edit_product")
     public String edit(Model model) {
@@ -79,6 +79,6 @@ public class ProductController {
     @PostMapping("/add_product")
     public String createProduct(ProductRequest productRequest) {
         ProductDTO productDTO=productService.create(productRequest);
-        return "admin/add_product";
+        return "redirect:/admin/product_view";
     }
 }

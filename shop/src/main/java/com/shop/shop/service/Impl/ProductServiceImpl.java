@@ -101,7 +101,7 @@ public class ProductServiceImpl implements ProductService {
             return productDTO;
         } catch (Exception e) {
             log.info("Create product fail");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "not logged in");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Create product fail");
         }
     }
 
@@ -111,6 +111,7 @@ public class ProductServiceImpl implements ProductService {
             //update product
             Product product = productRepository.findById(productId).get();
             product.setUpdateAt(new Date());
+            product.setId(productId);
             product=setEdit(product, productRequest);
             Product update = productRepository.save(product);
             PhotoProduct photoProduct1=photoProductRepository.findAllByProductId(productId);

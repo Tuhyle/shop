@@ -19,7 +19,10 @@ public class LoginController {
     public String login() {
         return "login";
     }
-
+    @GetMapping  ("/403")
+    public String access() {
+        return "403";
+    }
     @PostMapping("/register")
     String index(@ModelAttribute("userRequest") UserCreateRequest userRequest) {
         userService.registerUser(userRequest);

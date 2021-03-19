@@ -7,10 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 @Repository
 public interface CartItemRepository extends JpaRepository<CartItem, Integer> {
     Page<CartItem> findByCartId(Integer cartId, Pageable pageable);
 
     CartItem findByCartIdAndProductId(Integer cartId, Integer productId);
+
+    List<CartItem> findAllByCartId(Integer cartId);
 
 }
