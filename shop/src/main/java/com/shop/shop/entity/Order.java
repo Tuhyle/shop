@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "order")
+@Table(name = "`order`")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,11 +17,11 @@ public class Order{
     @AllArgsConstructor
     @Getter
     public enum Status {
-        STATUS_WAIT_CONFIRM(0, "Disable"),
-        STATUS_WAIT_GOOD(1, "Disable"),
-        STATUS_DELIVERY_PROGRESS(2, "delivery_progress"),
-        STATUS_DELIVERY(3, "delivery"),
-        STATUS_CANCELLED(4, "Disable");
+        STATUS_WAIT_CONFIRM(0, "STATUS_WAIT_CONFIRM"),
+        STATUS_WAIT_GOOD(1, "STATUS_WAIT_GOOD"),
+        STATUS_DELIVERY_PROGRESS(2, "STATUS_DELIVERY_PROGRESS"),
+        STATUS_DELIVERY(3, "STATUS_DELIVERY"),
+        STATUS_CANCELLED(4, "STATUS_CANCELLED");
         private final int value;
         private final String name;
     }
@@ -31,12 +31,12 @@ public class Order{
     private Integer id;
 
     @Column(name = "status")
-    private Boolean status;
+    private Integer status;
 
-    @Column(name = "subTotal")
+    @Column(name = "sub_total")
     private Double subTotal;
 
-    @Column(name = "itemDiscount")
+    @Column(name = "item_discount")
     private Double itemDiscount;
 
     @Column(name = "tax")
@@ -54,7 +54,7 @@ public class Order{
     @Column(name = "discount")
     private Double discount;
 
-    @Column(name = "grandTotal")
+    @Column(name = "grand_total")
     private Double grandTotal;
 
     @Column(name = "firstName")
@@ -69,17 +69,8 @@ public class Order{
     @Column(name = "email")
     private String email;
 
-    @Column(name = "line1")
-    private String line1;
-
-    @Column(name = "province")
-    private String province;
-
-    @Column(name = "district")
-    private String district;
-
-    @Column(name = "ward-commune")
-    private String wardCommune;
+    @Column(name = "address")
+    private String address;
 
     @Column(name = "content")
     private String content;

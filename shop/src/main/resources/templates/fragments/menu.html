@@ -30,6 +30,7 @@
     <link rel="stylesheet" th:href="@{/css/custom.css}">
     <!-- Modernizr JS -->
     <script th:src="@{/js/vendor/modernizr-3.5.0.min.js}"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
 </head>
 <body>
 <!-- Start Header Style -->
@@ -66,7 +67,7 @@
                                     <li><a href="contact.html">contact</a></li>
                                     <li class="drop"><a href="blog.html"><i class="fas fa-caret-down"></i></a>
                                         <ul class="dropdown">
-                                            <li><a href="blog.html">Account Information</a></li>
+                                            <li><a th:href="@{/login}">Login</a></li>
                                             <li><a th:href="@{/logout}">Logout</a></li>
                                         </ul>
                                     </li>
@@ -101,11 +102,11 @@
                                     <a href="#"><i class="icon-magnifier icons"></i></a>
                                 </div>
                                 <div class="header__account">
-                                    <a href="#"><i class="icon-user icons"></i></a>
+                                    <a th:href="@{/profile}"><i class="icon-user icons"></i></a>
                                 </div>
                                 <div class="htc__shopping__cart">
                                     <a class="cart__menu" href="#"><i class="icon-handbag icons"></i></a>
-                                    <a href="#"><span class="htc__qua">2</span></a>
+                                    <a th:href="@{/cart/cart-view}"><span class="htc__qua" th:value="${sumSl}">2</span></a>
                                 </div>
                             </div>
                         </div>

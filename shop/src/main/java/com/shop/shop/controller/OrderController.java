@@ -42,6 +42,16 @@ public class OrderController {
     }
     @GetMapping("/history")
     public String history(Model model, Pageable pageable){
+        Page<OrderDTO> orderDTOS=orderService.getAllByStatus(0,pageable);
+        model.addAttribute("orderDTOS",orderDTOS);
+        Page<OrderDTO> orderDTOS1=orderService.getAllByStatus(1,pageable);
+        model.addAttribute("orderDTOS1",orderDTOS1);
+        Page<OrderDTO> orderDTOS2=orderService.getAllByStatus(2,pageable);
+        model.addAttribute("orderDTOS2",orderDTOS2);
+        Page<OrderDTO> orderDTOS3=orderService.getAllByStatus(3,pageable);
+        model.addAttribute("orderDTOS3",orderDTOS3);
+        Page<OrderDTO> orderDTOS4=orderService.getAllByStatus(4,pageable);
+        model.addAttribute("orderDTOS4",orderDTOS4);
         return "history-order";
     }
 }

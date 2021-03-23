@@ -36,13 +36,7 @@ public class OrderRequest {
 
     private String email;
 
-    private String line1;
-
-    private String province;
-
-    private String district;
-
-    private String wardCommune;
+    private String address;
 
     private String content;
 }

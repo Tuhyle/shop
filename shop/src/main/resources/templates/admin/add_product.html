@@ -36,37 +36,37 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Name Product</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Tên sản phẩm"
+                            <input type="text" class="form-control" required id="exampleInputEmail1" placeholder="Tên sản phẩm"
                                    th:field="*{name}" required>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">summary</label>
-                            <input type="text" class="form-control" placeholder="Tên sản phẩm" th:field="*{metaTitle}">
+                            <input type="text" class="form-control" required placeholder="Tên sản phẩm" th:field="*{metaTitle}">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Title</label>
-                            <input type="text" class="form-control" placeholder="Tên sản phẩm" th:field="*{metaTitle}">
+                            <input type="text" class="form-control" required placeholder="Tên sản phẩm" th:field="*{metaTitle}">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Type</label>
-                            <input type="number" class="form-control" placeholder="type" th:field="*{type}">
+                            <input type="number" class="form-control" required placeholder="type" th:field="*{type}">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Price</label>
-                            <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Giá"
+                            <input type="number" class="form-control" required id="exampleInputPassword1" placeholder="Giá"
                                    th:field="*{price}">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Discount(Giảm giá)</label>
-                            <input type="number" class="form-control" th:field="*{discount}">
+                            <input type="number" class="form-control" required th:field="*{discount}">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Quantity</label>
-                            <input type="number" class="form-control" th:field="*{quantity}">
+                            <input type="number" class="form-control" required th:field="*{quantity}">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">content</label>
-                            <input type="text" class="form-control" th:field="*{content}">
+                            <input type="text" class="form-control" required th:field="*{content}">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Image</label>

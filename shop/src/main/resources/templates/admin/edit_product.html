@@ -70,7 +70,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Image</label>
-                            <input type="file" class="form-control" th:field="*{photos}">
+                            <input type="file" id="file-uploader" accept=".jpg, .png" multiple class="form-control" th:field="*{photos}">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Category</label>
@@ -200,6 +200,14 @@
 
         new Chartist.Line('#multiple-chart', data, options);
 
+    });
+</script>
+<script>
+    const fileUploader = document.getElementById('file-uploader');
+
+    fileUploader.addEventListener('change', (event) => {
+        const files = event.target.files;
+        console.log('files', files);
     });
 </script>
 </body>

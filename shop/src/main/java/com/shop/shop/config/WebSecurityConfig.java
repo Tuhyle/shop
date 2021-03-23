@@ -56,9 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/home")//
-                .failureUrl("/admin/login?error=true")
-                // Cấu hình cho trang Logout.
-                // (Sau khi logout, chuyển tới trang home)
+                .failureUrl("/login?error=true")
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/home");
 
     }

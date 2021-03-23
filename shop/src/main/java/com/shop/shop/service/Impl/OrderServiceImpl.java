@@ -6,12 +6,15 @@ import com.shop.shop.repository.*;
 import com.shop.shop.request.OrderRequest;
 import com.shop.shop.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import response.OrderDTO;
+import response.ProductDTO;
 
 import java.util.Date;
 import java.util.List;
@@ -65,6 +68,21 @@ public class OrderServiceImpl implements OrderService {
         } catch (Exception e) {
             log.info("Create product fail");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Create product fail");
+        }
+    }
+
+    @Override
+    public Page<OrderDTO> getAllByStatus(Integer status, Pageable pageable) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Account account = accountRepository.findByEmail(authentication.getName());
+            Page<Order> orderPage=orderRepository.findAllByStatusAndAccountId(status,account.getId(),pageable);
+            Page<OrderDTO> orderDTOS = orderPage.map(order -> ModelMapperUtils.map(order, OrderDTO.class));
+            log.info("getList order success");
+            return orderDTOS;
+        } catch (Exception e) {
+            log.error("getList order fail", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

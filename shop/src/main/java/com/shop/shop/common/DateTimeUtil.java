@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DateTimeUtil {
+public class  DateTimeUtil {
     public  final String DEFAULT_SHORTDATEFORMAT = "dd/MM/yyyy";
     public  final String DEFAULT_SIMPLEDATEFORMAT = "yyyy-MM-dd";
     public  final SimpleDateFormat SHORT_DATE_FORMAT = new SimpleDateFormat(DEFAULT_SIMPLEDATEFORMAT);

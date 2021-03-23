@@ -29,6 +29,7 @@
     <link rel="stylesheet" th:href="@{/css/responsive.css}">
     <!-- User style -->
     <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
     <!-- Modernizr JS -->
     <!-- Modernizr JS -->
     <script th:src="@{/js/vendor/modernizr-3.5.0.min.js}"></script>
@@ -118,7 +119,7 @@
                                     <ul class="product__action">
                                         <li><a href="wishlist.html"><i class="icon-heart icons"></i></a></li>
 
-                                        <li><a th:href="@{/cart/add/{productId}(productId =${product1.id})}"><i
+                                        <li><a onclick="" th:href="@{/cart/add/{productId}(productId =${product1.id})}"><i
                                                 class="icon-handbag icons"></i></a></li>
 
                                         <li><a href="#"><i class="icon-shuffle icons"></i></a></li>

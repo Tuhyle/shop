@@ -46,6 +46,11 @@ public  class CartController {
     public String menu(Model model,@PageableDefault(size = 8, sort = "id",
             direction = Sort.Direction.DESC) Pageable pageable) {
         Page<CartItemDTO> cartItemDTOS =cartItemService.getAllProductByCart(pageable);
+        Integer sumSl=0;
+        for (CartItemDTO item:cartItemDTOS) {
+            sumSl+=item.getQuantity();
+        }
+        model.addAttribute("sumSl",sumSl);
         model.addAttribute("cartItemDTOS",cartItemDTOS);
         return "fragments/menu";
     }

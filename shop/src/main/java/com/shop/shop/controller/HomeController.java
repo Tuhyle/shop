@@ -96,5 +96,9 @@ public class HomeController {
         cartItemRepository.deleteById(cartItemId);
         return "redirect:cart/cart-view";
     }
+    @GetMapping("/profile")
+    public String profile() {
+        return "/profile";
+    }
 }
 

@@ -34,11 +34,7 @@ public class OrderDTO {
 
     private String email;
 
-    private String line1;
-
-    private String province;
-
-    private String country;
+    private String address;
 
     private String content;
 }

@@ -1,0 +1,162 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Product Details || Asbab - eCommerce HTML5 Template</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Place favicon.ico in the root directory -->
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- All css files are included here. -->
+    <!-- Bootstrap fremwork main css -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- Owl Carousel min css -->
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/css/owl.theme.default.min.css}">
+    <!-- This core.css file contents all plugings css file. -->
+    <link rel="stylesheet" th:href="@{/css/core.css}">
+    <!-- Theme shortcodes/elements style -->
+    <link rel="stylesheet" th:href="@{/css/shortcode/shortcodes.css}">
+    <!-- Theme main style -->
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <!-- Responsive css -->
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <!-- User style -->
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <!-- Modernizr JS -->
+    <!-- Modernizr JS -->
+    <script th:src="@{/js/vendor/modernizr-3.5.0.min.js}"></script>
+    <script type="text/css">
+    </script>
+</head>
+
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<!-- Body main wrapper start -->
+<div class="wrapper">
+    <div th:replace="~{fragments/menu :: menu}">Header</div>
+    <!-- Start Bradcaump area -->
+    <div class="container" style="padding-top: 60px;">
+        <h1 class="page-header">Edit Profile</h1>
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="text-center">
+                    <img src="http://lorempixel.com/200/200/people/9/" class="avatar img-circle img-thumbnail" alt="avatar">
+                    <h6>Upload a different photo...</h6>
+                    <input type="file" class="text-center center-block well well-sm">
+                </div>
+            </div>
+            <!-- edit form column -->
+            <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+                <div class="alert alert-info alert-dismissable">
+                    <a class="panel-close close" data-dismiss="alert">×</a>
+                    <i class="fa fa-coffee"></i>
+                    This is an <strong>.alert</strong>. Use this to show important messages to the user.
+                </div>
+                <h3>Personal info</h3>
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">First name:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" value="Jane" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Last name:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" value="Bishop" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Company:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" value="" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Email:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" value="janesemail@gmail.com" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Time Zone:</label>
+                        <div class="col-lg-8">
+                            <div class="ui-select">
+                                <select id="user_time_zone" class="form-control">
+                                    <option value="Hawaii">(GMT-10:00) Hawaii</option>
+                                    <option value="Alaska">(GMT-09:00) Alaska</option>
+                                    <option value="Pacific Time (US & Canada)">(GMT-08:00) Pacific Time (US & Canada)</option>
+                                    <option value="Arizona">(GMT-07:00) Arizona</option>
+                                    <option value="Mountain Time (US & Canada)">(GMT-07:00) Mountain Time (US & Canada)</option>
+                                    <option value="Central Time (US & Canada)" selected="selected">(GMT-06:00) Central Time (US & Canada)</option>
+                                    <option value="Eastern Time (US & Canada)">(GMT-05:00) Eastern Time (US & Canada)</option>
+                                    <option value="Indiana (East)">(GMT-05:00) Indiana (East)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Username:</label>
+                        <div class="col-md-8">
+                            <input class="form-control" value="janeuser" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Password:</label>
+                        <div class="col-md-8">
+                            <input class="form-control" value="11111122333" type="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Confirm password:</label>
+                        <div class="col-md-8">
+                            <input class="form-control" value="11111122333" type="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label"></label>
+                        <div class="col-md-8">
+                            <input class="btn btn-primary" value="Save Changes" type="button">
+                            <span></span>
+                            <input class="btn btn-default" value="Cancel" type="reset">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End Product Area -->
+    <!-- Start Footer Area -->
+    <div th:insert="~{fragments/footer :: footer}">&copy; 2017 The Static Templates</div>
+    <!-- End Footer Style -->
+</div>
+<!-- Body main wrapper end -->
+
+<!-- Placed js at the end of the document so the pages load faster -->
+
+<!-- jquery latest version -->
+<script th:src="@{/js/vendor/jquery-3.2.1.min.js}"></script>
+<!-- Bootstrap framework js -->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!-- All js plugins included in this file. -->
+<script th:src="@{/js/plugins.js}"></script>
+<script th:src="@{/js/slick.min.js}"></script>
+<script th:src="@{/js/owl.carousel.min.js}"></script>
+<!-- Waypoints.min.js. -->
+<script th:src="@{/js/waypoints.min.js}"></script>
+<!-- Main js file that contents all jQuery plugins activation. -->
+<script th:src="@{/js/main.js}"></script>
+
+</body>
+
+</html>

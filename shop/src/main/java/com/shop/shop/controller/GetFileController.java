@@ -47,4 +47,11 @@ public class GetFileController {
         addCartRequest.setProductId(productId);
         return ResponseEntity.ok(cartService.addToCart(addCartRequest));
     }
+    @GetMapping(value = "/add/{productId}")
+    public ResponseEntity<CartDTO> addCart(@PathVariable("productId") Integer productId) {
+        AddCartRequest addCartRequest = new AddCartRequest();
+        addCartRequest.setProductId(productId);
+        cartService.addToCart(addCartRequest);
+        return ResponseEntity.ok(cartService.addToCart(addCartRequest));
+    }
 }
