@@ -39,20 +39,11 @@ public class Order{
     @Column(name = "item_discount")
     private Double itemDiscount;
 
-    @Column(name = "tax")
-    private Double tax;
-
     @Column(name = "shipping")
     private Double shipping;
 
-    @Column(name = "total")
-    private Double total;
-
     @Column(name = "promo")
     private String promo;
-
-    @Column(name = "discount")
-    private Double discount;
 
     @Column(name = "grand_total")
     private Double grandTotal;

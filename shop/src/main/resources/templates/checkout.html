@@ -166,7 +166,7 @@
                     <div class="card">
 
                         <!--Card content-->
-                        <form class="card-body" th:action="@{/order/checkout}" th:object="${orderRequest}">
+                        <form class="card-body" th:action="@{/order/checkout}" th:object="${orderRequest}" method="post">
 
                             <!--Grid row-->
                             <div class="row">
@@ -214,9 +214,8 @@
 
                             <!--address-->
                             <div class="md-form mb-5">
-                                <input type="text" id="address" class="form-control" placeholder="1234 Main St"
-                                >
-                                <label for="address" class="">Address</label>
+                                <input type="text" class="form-control" placeholder="1234 Main St" id="diachi">
+                                <label  class="">Address</label>
                             </div>
                             <!--Grid row-->
                             <div class="row">
@@ -332,13 +331,13 @@
                                         <option value="25.122">Ninja Van:25.122</option>
                                     </select>
                                 </div>
-                                <input type="email" style="display: none" class="form-control"
+                                <input  style="display: none" class="form-control"
                                        th:field="*{address}" id="address1">
+                                <input  style="display: none" class="form-control"
+                                        th:field="*{shipping}" id="ship">
                             </div>
                             <!--Grid row-->
-
                             <hr>
-
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="same-address">
                                 <label class="custom-control-label" for="same-address">Shipping address is the same as
@@ -402,12 +401,8 @@
                                 </div>
                             </div>
                             <hr class="mb-4">
-                            <button class="btn btn-primary btn-lg btn-block" type="submit" onclick="show()">Continue to
-                                checkout
-                            </button>
-
+                            <button type="submit" class="btn btn-primary" onclick="Show()">Continue to checkout</button>
                         </form>
-
                     </div>
                     <!--/.Card-->
 
@@ -558,20 +553,20 @@
         document.querySelector('#ward-commune').innerHTML = outputCommune;
         document.querySelector('.ward-commune-select > span').style.display = "none";
     })
-</script>
-<script type="text/javascript">
     function Show() {
-        let line = document.getElementById("address");
+        let line = document.getElementById("diachi").value;
         let city = document.getElementById("city-province");
         let district = document.getElementById("district-town");
+        let shopping = document.getElementById("shopping");
         let wardCommune = document.getElementById("ward-commune");
         let obj = {
+            shopping:shopping.options[shopping.selectedIndex].value,
             city: city.options[city.selectedIndex].text,
             district: district.options[district.selectedIndex].text,
             wardCommune: wardCommune.options[wardCommune.selectedIndex].text,
         }
-        console.log(line);
-        document.getElementById("address1").value = line+'-'+`${obj.wardCommune}-${obj.district}-${obj.city}`;
+        document.getElementById("ship").value =`${obj.shopping}`;
+        document.getElementById("address1").value =line+"-"+`${obj.wardCommune}-${obj.district}-${obj.city}`;
     }
 </script>
 

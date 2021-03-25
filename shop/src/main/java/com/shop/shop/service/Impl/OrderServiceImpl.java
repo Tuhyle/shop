@@ -46,11 +46,19 @@ public class OrderServiceImpl implements OrderService {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             Account account = accountRepository.findByEmail(authentication.getName());
             Cart cart = cartRepository.findByAccountId(account.getId());
+            List<CartItem> cartItemList = cartItemRepository.findAllByCartId(cart.getId());
+            double subTotal=0;
+            for (CartItem item : cartItemList) {
+                subTotal+=item.getProduct().getPrice()*item.getQuantity()*(1-item.getProduct().getDiscount())/100;
+            }
             Order order = ModelMapperUtils.map(orderRequest, Order.class);
             order.setAccount(account);
+            order.setShipping(orderRequest.getShipping());
+            order.setStatus(Order.Status.STATUS_WAIT_CONFIRM.getValue());
             order.setCreateAt(new Date());
+            order.setSubTotal(subTotal);
+            order.setGrandTotal(subTotal+orderRequest.getShipping());
             Order order1 = orderRepository.save(order);
-            List<CartItem> cartItemList = cartItemRepository.findAllByCartId(cart.getId());
             for (CartItem item : cartItemList) {
                 OrderItem orderItem = OrderItem.builder()
                         .order(order1)
@@ -63,10 +71,10 @@ public class OrderServiceImpl implements OrderService {
                 orderItemRepository.save(orderItem);
             }
             OrderDTO orderDTO = ModelMapperUtils.map(order1, OrderDTO.class);
-            log.info("function : create product success");
+            log.info("function : create order success");
             return orderDTO;
         } catch (Exception e) {
-            log.info("Create product fail");
+            log.info("Create order fail");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Create product fail");
         }
     }
