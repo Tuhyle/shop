@@ -39,11 +39,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
         // Các yêu cầu phải login với vai trò ROLE_EMPLOYEE hoặc ROLE_MANAGER.
         // Nếu chưa login, nó sẽ redirect tới trang /admin/login.
-        http.authorizeRequests().antMatchers("/cart/**","/order/**","/admin/**")//
+        http.authorizeRequests().antMatchers("/cart/**","/order/**")//
                 .access("hasAnyRole('ROLE_EMPLOYEE', 'ROLE_MANAGER')");
 
         // Các trang chỉ dành cho MANAGER
-        http.authorizeRequests().antMatchers("/admin/product_view").access("hasRole('ROLE_MANAGER')");
+        http.authorizeRequests().antMatchers("/admin/**").access("hasRole('ROLE_MANAGER')");
 
         // Khi người dùng đã login, với vai trò XX.
         // Nhưng truy cập vào trang yêu cầu vai trò YY,
@@ -57,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .passwordParameter("password")
                 .defaultSuccessUrl("/home")//
                 .failureUrl("/login?error=true")
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/home");
+                .and().logout().logoutUrl("/logout");
 
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import response.OrderDTO;
 import response.ProductDTO;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderDTO createOrderByUser(OrderRequest orderRequest) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -70,11 +72,10 @@ public class OrderServiceImpl implements OrderService {
                         .build();
                 orderItemRepository.save(orderItem);
             }
-            OrderDTO orderDTO = ModelMapperUtils.map(order1, OrderDTO.class);
             log.info("function : create order success");
-            return orderDTO;
+            return null;
         } catch (Exception e) {
-            log.info("Create order fail");
+            log.info(e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Create product fail");
         }
     }

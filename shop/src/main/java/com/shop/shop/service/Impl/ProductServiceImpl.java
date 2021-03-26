@@ -114,21 +114,24 @@ public class ProductServiceImpl implements ProductService {
             product.setId(productId);
             product=setEdit(product, productRequest);
             Product update = productRepository.save(product);
+            System.out.println(productRequest.getPhotos());
             PhotoProduct photoProduct1=photoProductRepository.findAllByProductId(productId);
-            if (productRequest.getPhotos() != null) {
+            if (productRequest.getPhotos() != null && photoProduct1==null ) {
                 photoProduct1 = PhotoProduct.builder()
                         .fileName(photoProductService.storeFile(productRequest.getPhotos()))
                         .fileNameBlank("default.jpg")
                         .product(product)
                         .build();
-                photoProduct1 = photoProductRepository.save(photoProduct1);
+            }else if (productRequest.getPhotos() != null){
+                photoProduct1.setFileName(photoProductService.storeFile(productRequest.getPhotos()));
             }
+            photoProduct1 = photoProductRepository.save(photoProduct1);
             ProductDTO productDTO = ModelMapperUtils.map(update, ProductDTO.class);
             productDTO.setPhoto(getFileURL(photoProduct1.getFileName()));
             log.info("function : update product success");
             return productDTO;
         } catch (Exception e) {
-            log.info("update product fail");
+            log.info(e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "not logged in");
         }
     }

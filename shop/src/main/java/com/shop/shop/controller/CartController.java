@@ -1,5 +1,6 @@
 package com.shop.shop.controller;
 
+import com.shop.shop.repository.CartItemRepository;
 import com.shop.shop.request.AddCartRequest;
 import com.shop.shop.service.CartItemService;
 import com.shop.shop.service.CartService;
@@ -25,6 +26,9 @@ import response.CartItemDTO;
 public  class CartController {
     @Autowired
     CartService cartService;
+
+    @Autowired
+    CartItemRepository cartItemRepository;
 
     @Autowired
     CartItemService cartItemService;
@@ -53,5 +57,10 @@ public  class CartController {
         model.addAttribute("sumSl",sumSl);
         model.addAttribute("cartItemDTOS",cartItemDTOS);
         return "fragments/menu";
+    }
+    @GetMapping("/remove-cartItem/{cartItemId}")
+    public String viewRemove(@PathVariable("cartItemId") Integer cartItemId) {
+        cartItemRepository.deleteById(cartItemId);
+        return "redirect:/cart/cart-view";
     }
 }

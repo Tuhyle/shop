@@ -34,6 +34,8 @@
                 <H2 style="align-content: center">EDIT CATEGORY</H2>
                 <form id="quickForm" th:object="${category}" method="post" th:action="@{/admin/edit_category}" th:method="post"
                       enctype="multipart/form-data">
+                    <input type="text" class="form-control" style="display: none"
+                           th:field="*{id}">
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Name category</label>

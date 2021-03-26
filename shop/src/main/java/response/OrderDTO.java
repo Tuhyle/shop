@@ -12,15 +12,9 @@ import lombok.NoArgsConstructor;
 public class OrderDTO {
     private Integer id;
 
-    private Double subTotal;
-
-    private Double itemDiscount;
-
-    private Double tax;
-
     private Double shipping;
 
-    private Double total;
+    private Double grandTotal;
 
     private String promo;
 

@@ -39,5 +39,7 @@ public class ProductRequest {
 
     private MultipartFile photos;
 
+    private String photo;
+
     private Integer categoryId;
 }

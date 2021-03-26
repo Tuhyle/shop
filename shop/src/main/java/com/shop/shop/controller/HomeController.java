@@ -91,11 +91,6 @@ public class HomeController {
         }
         return "redirect:cart/cart-view";
     }
-    @GetMapping("/remove-cartItem/{cartItemId}")
-    public String viewRemove(@PathVariable("cartItemId") Integer cartItemId) {
-        cartItemRepository.deleteById(cartItemId);
-        return "redirect:cart/cart-view";
-    }
     @GetMapping("/profile")
     public String profile() {
         return "/profile";

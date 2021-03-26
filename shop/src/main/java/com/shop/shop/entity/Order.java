@@ -36,14 +36,8 @@ public class Order{
     @Column(name = "sub_total")
     private Double subTotal;
 
-    @Column(name = "item_discount")
-    private Double itemDiscount;
-
     @Column(name = "shipping")
     private Double shipping;
-
-    @Column(name = "promo")
-    private String promo;
 
     @Column(name = "grand_total")
     private Double grandTotal;
