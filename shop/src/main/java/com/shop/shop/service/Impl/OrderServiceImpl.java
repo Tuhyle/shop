@@ -70,6 +70,7 @@ public class OrderServiceImpl implements OrderService {
                         .discount(item.getProduct().getDiscount())
                         .price(item.getProduct().getPrice())
                         .build();
+                cartItemRepository.deleteById(item.getId());
                 orderItemRepository.save(orderItem);
             }
             log.info("function : create order success");

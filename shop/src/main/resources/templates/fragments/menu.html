@@ -49,15 +49,10 @@
                         <div class="col-md-7 col-lg-8 col-sm-5 col-xs-3">
                             <nav class="main__menu__nav hidden-xs hidden-sm">
                                 <ul class="main__menu">
-                                    <li class="drop"><a th:href="@{/home}">Home</a></li>
-                                    <li class="drop"><a href="#">category</a>
-                                        <ul class="dropdown mega_dropdown">
-                                            <!-- Start Single Mega MEnu -->
-                                            <li><a class="mega__title" href="product-grid.html">Shop Pages</a></li>
-                                            <!-- End Single Mega MEnu -->
-                                        </ul>
+                                    <li class="drop"><a th:href="@{/home}">Trang chủ</a></li>
+                                    <li class="drop"><a th:href="@{/order/history}">Đơn hàng</a>
                                     </li>
-                                    <li class="drop"><a th:href="@{/product-grid}">Product</a></li>
+                                    <li class="drop"><a th:href="@{/product-grid}">Sản phẩm</a></li>
                                     <li class="drop"><a href="blog.html">blog</a>
                                         <ul class="dropdown">
                                             <li><a href="blog.html">Blog Grid</a></li>
@@ -106,7 +101,7 @@
                                 </div>
                                 <div class="htc__shopping__cart">
                                     <a class="cart__menu" href="#"><i class="icon-handbag icons"></i></a>
-                                    <a th:href="@{/cart/cart-view}"><span class="htc__qua" th:value="${sumSl}">2</span></a>
+                                    <a th:href="@{/cart/cart-view}"></a>
                                 </div>
                             </div>
                         </div>

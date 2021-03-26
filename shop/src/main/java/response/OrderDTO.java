@@ -31,4 +31,6 @@ public class OrderDTO {
     private String address;
 
     private String content;
+
+    private Integer status;
 }

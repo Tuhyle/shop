@@ -40,7 +40,7 @@ public class OrderController {
     @PostMapping("/checkout")
     public String createProduct(Model model, Pageable pageable,OrderRequest orderRequest) {
         OrderDTO orderDTO = orderService.createOrderByUser(orderRequest);
-        return "checkout";
+        return "redirect:/order/history";
     }
 
     @GetMapping("/history")
