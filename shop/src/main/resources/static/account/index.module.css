@@ -1,0 +1,124 @@
+
+@import './minichat.module.css';
+
+
+
+
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.order-title {
+  font-size: 12px;
+  color: #888;
+  letter-spacing: 0;
+  max-width: 50%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.order-content {
+  font-size: 13px;
+  max-width: 50%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.copy {
+  margin-left: 4px;
+}
+
+.order-status {
+  height: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.status-icon {
+  height: 14px;
+  width: 14px;
+
+  &.completed {
+    mask: svg-load('completed-order.svg') no-repeat center;
+    mask-size: contain;
+    background-color: #54cc77;
+  }
+}
+
+.status-text {
+  color: #333;
+  margin-left: 4px;
+  font-weight: 500;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.income {
+  color: #ee4d2d;
+  font-weight: 700;
+}
+
+.order-name {
+  font-size: 13px;
+  line-height: 15px;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 1px 0 3px 0;
+  word-break: break-all;
+  max-width: 294px;
+}
+
+.count {
+  color: #888;
+  font-size: 12px;
+}
+
+.footer {
+  text-align: center;
+  height: 26px;
+  font-size: 12px;
+  color: #ee4d2d;
+  border-top: 1px dashed #f1f3f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rate-now {
+  margin-top: 4px;
+}
+
+.product-image > img {
+  height: 100%;
+  width: 100%;
+}
+
+.product-info {
+  flex: 1;
+  padding-left: 8px;
+}
+
+.banned:hover {
+  cursor: default;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-top: 1px dashed #f1f3f4;
+}
+
+.no-access {
+  color: #ccc;
+  cursor: default;
+  margin-top: 4px;
+}

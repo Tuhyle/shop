@@ -1,9 +1,6 @@
 package com.shop.shop.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,6 +17,9 @@ public class Account implements Serializable {
 
     public static final String ROLE_MANAGER = "MANAGER";
     public static final String ROLE_EMPLOYEE = "EMPLOYEE";
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -54,4 +54,7 @@ public class Account implements Serializable {
 
     @Column(name = "profile")
     private String profile;
+
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
 }

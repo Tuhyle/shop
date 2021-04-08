@@ -24,7 +24,7 @@ public class ProductDTO {
     private Integer type;
 
     private Double price;
-
+    private String gia;
     private Double discount;
 
     private Integer quantity;

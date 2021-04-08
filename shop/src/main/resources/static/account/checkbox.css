@@ -1,0 +1,92 @@
+.shopee-checkbox {
+  line-height: normal;
+  display: inline-block;
+  font-size: 0;
+  color: #333;
+  cursor: pointer;
+  user-select: none;
+}
+
+.disabled {
+  color: #b7b7b7;
+  cursor: not-allowed;
+  background-color: #eee;
+}
+
+.checked-disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.input {
+  display: none;
+}
+
+.icon {
+  display: inline-block;
+  line-height: normal;
+  fill: currentColor;
+}
+
+.indicator {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  border-radius: 2px;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    border: 1px solid #ee4d2d;
+  }
+
+  & .icon {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 16px;
+    height: 16px;
+    transform: scale(0);
+    transition: transform 0.2s;
+  }
+}
+
+.disabled .indicator {
+  border: 1px solid #ccc;
+  background-color: #eee;
+}
+
+.input:checked + .indicator {
+  background-color: #ee4d2d;
+  border-color: #ee4d2d;
+
+  & .icon {
+    transform: scale(1);
+  }
+}
+
+.disabled .input:checked + .indicator {
+  background-color: #e5e5e5;
+  border-color: #e5e5e5;
+}
+
+.label {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 18px;
+  vertical-align: middle;
+}
+
+.checked {
+  border: none;
+  color: #fff;
+}
+
+.indeterminate {
+  border: none;
+  color: #fff;
+}

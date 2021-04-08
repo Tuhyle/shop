@@ -95,5 +95,9 @@ public class HomeController {
     public String profile() {
         return "/profile";
     }
+    @PostMapping("/profile")
+    public String editprofile() {
+        return "/profile";
+    }
 }
 

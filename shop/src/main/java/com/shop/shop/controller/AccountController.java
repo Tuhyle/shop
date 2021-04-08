@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import response.AccountDTO;
 import response.ProductDTO;
@@ -32,15 +33,19 @@ public class AccountController {
     AccountRepository accountRepository;
 
     @GetMapping("/account")
-    public String getALl(Model model, @Param("search") String search, Pageable pageable) {
+    public String getALl(Model model, @Param("search") String search, Pageable pageable,Integer id,String userRole) {
         model.addAttribute("search", search);
         Page<AccountDTO> accountDTOS = accountService.getAll(search, pageable);
         model.addAttribute("accounts", accountDTOS);
-        return "admin/acount";
+        model.addAttribute("id",id);
+        model.addAttribute("userRole",userRole);
+        return "admin/account";
     }
-    @GetMapping("/edit/{accountId}")
-    public String edit(Model model, @PathVariable("accountId") Integer accountId) {
-        Optional<Account> account=accountRepository.findById(accountId);
-        return "admin/acount";
+    @PostMapping("/edit-role")
+    public String editRole(Model model,Integer id,String userRole) {
+        Optional<Account> account=accountRepository.findById(id);
+        account.get().setUserRole(userRole);
+        accountRepository.save(account.get());
+        return "admin/account";
     }
 }

@@ -1,5 +1,6 @@
 package com.shop.shop.service.Impl;
 
+import com.shop.shop.common.CustomerNotFoundException;
 import com.shop.shop.common.ModelMapperUtils;
 import com.shop.shop.entity.Account;
 import com.shop.shop.entity.Cart;
@@ -23,10 +24,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import response.AccountDTO;
 import response.ProductDTO;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.Optional;
 
 @Service
+@Transactional
 @Slf4j
 public class AccountServiceImpl implements AccountService {
 
@@ -114,5 +117,28 @@ public class AccountServiceImpl implements AccountService {
             accountDTO.setPhoto(getFileURL(accountDTO.getPhoto()));
         }
         return accountDTO;
+    }
+    @Override
+    public void updateResetPasswordToken(String token, String email) throws CustomerNotFoundException {
+        Account account = userRepository.findByEmail(email);
+        if (account != null) {
+            account.setResetPasswordToken(token);
+            userRepository.save(account);
+        } else {
+            throw new CustomerNotFoundException("Could not find any customer with the email " + email);
+        }
+    }
+    @Override
+    public Account getByResetPasswordToken(String token) {
+        return userRepository.findByResetPasswordToken(token);
+    }
+    @Override
+    public void updatePassword(Account account, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        account.setPassword(encodedPassword);
+
+        account.setResetPasswordToken(null);
+        userRepository.save(account);
     }
 }

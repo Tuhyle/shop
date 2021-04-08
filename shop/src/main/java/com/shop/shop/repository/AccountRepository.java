@@ -17,4 +17,6 @@ public interface AccountRepository extends JpaRepository<Account,Integer> {
     Page<Account> search(String search, Pageable pageable);
 
     Page<Account> getAllBy(Pageable pageable);
+
+    Account findByResetPasswordToken(String token);
 }

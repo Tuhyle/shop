@@ -19,10 +19,8 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import response.ProductDTO;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.text.NumberFormat;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -34,6 +32,9 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
 
     private final PhotoProductService photoProductService;
+
+    Locale localeEN = new Locale("en", "EN");
+    NumberFormat en = NumberFormat.getInstance(localeEN);
 
     public ProductServiceImpl(ProductRepository productRepository, PhotoProductRepository photoProductRepository, CategoryRepository categoryRepository, PhotoProductService photoProductService) {
         this.productRepository = productRepository;
@@ -66,7 +67,10 @@ public class ProductServiceImpl implements ProductService {
                 }else {
                     productDTO.setPhoto(getFileURL(photoProduct.getFileName()));
                 }
-                String giaGiam=productDTO.getPrice()*(1-productDTO.getDiscount())/100+ "VNĐ";
+                String str1 = en.format(productDTO.getPrice() * (1 - productDTO.getDiscount()/ 100) );
+                String giaGiam = str1 + "VNĐ";
+                String price=en.format(productDTO.getPrice());
+                productDTO.setGia(price);
                 productDTO.setGiaGiam(giaGiam);
                 return productDTO;
             });
@@ -201,7 +205,10 @@ public class ProductServiceImpl implements ProductService {
         }else {
             productDTO.setPhoto(getFileURL(photoProduct.getFileName()));
         }
-        String giaGiam=product.get().getPrice()*(1-product.get().getDiscount())/100+ "VNĐ";
+        String str1 = en.format(product.get().getPrice()*(1-product.get().getDiscount()/100));
+        String giaGiam = str1 + "VNĐ";
+        String price=en.format(productDTO.getPrice());
+        productDTO.setGia(price);
         productDTO.setGiaGiam(giaGiam);
         return productDTO;
     }
@@ -226,7 +233,10 @@ public class ProductServiceImpl implements ProductService {
                 } else {
                     productDTO.setPhoto(getFileURL(photoProduct.getFileName()));
                 }
-                String giaGiam = productDTO.getPrice() * (1 - productDTO.getDiscount()) / 100 + "VNĐ";
+                String str1 = en.format(productDTO.getPrice() * (1 - productDTO.getDiscount()/ 100) );
+                String price=en.format(productDTO.getPrice());
+                productDTO.setGia(price);
+                String giaGiam = str1 + "VNĐ";
                 productDTO.setGiaGiam(giaGiam);
                 return productDTO;
             });
