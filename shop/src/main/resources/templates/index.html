@@ -92,7 +92,7 @@
         </div>
     </div>
     <!-- Start Slider Area -->
-    
+
     <!-- Start Category Area -->
     <section class="htc__category__area ptb--100">
         <div class="container">
@@ -109,7 +109,7 @@
                     <div class="product__list clearfix mt--30">
                         <!-- Start Single Category -->
                         <div class="col-md-4 col-lg-3 col-sm-4 col-xs-12" th:each="product1 : ${products}">
-                            <div class="category">
+                            <div class="category" style="position: relative">
                                 <div class="ht__cat__thumb">
                                     <a th:href="@{/product-detail/{productId}((productId =${product1.id}))}">
                                         <img th:src="${product1.photo}" alt="product images" width="290px"
@@ -132,6 +132,9 @@
                                         <li class="old__prize" th:text="${product1.gia}"></li>
                                         <li th:text="${product1.giaGiam}"></li>
                                     </ul>
+                                </div>
+                                <div th:if="${message != null}" style="position: absolute">
+                                    <p class="text-warning">[[${message}]]</p>
                                 </div>
                             </div>
                         </div>

@@ -47,5 +47,4 @@ public class CategoryController {
         model.addAttribute("category", new Category());
         return "admin/add_category";
     }
-
 }

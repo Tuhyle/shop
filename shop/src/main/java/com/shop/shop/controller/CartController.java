@@ -33,10 +33,12 @@ public  class CartController {
     @Autowired
     CartItemService cartItemService;
     @GetMapping(value = "/add/{productId}")
-    public String getCreate(@PathVariable("productId") Integer productId) {
+    public String getCreate(@PathVariable("productId") Integer productId, Model model) {
         AddCartRequest addCartRequest = new AddCartRequest();
         addCartRequest.setProductId(productId);
         cartService.addToCart(addCartRequest);
+        String message="add to cart success";
+        model.addAttribute("message",message);
         return "redirect:/home";
     }
     @GetMapping(value = "/cart-view")
