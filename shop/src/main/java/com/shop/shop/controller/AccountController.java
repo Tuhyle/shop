@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 import response.AccountDTO;
 import response.ProductDTO;
 
@@ -47,5 +48,14 @@ public class AccountController {
         account.get().setUserRole(userRole);
         accountRepository.save(account.get());
         return "admin/account";
+    }
+    @PostMapping("/change-role")
+    public Boolean changeRole(Model model, Integer accountId,String role) {
+        model.addAttribute("accountId",accountId);
+        model.addAttribute("role",role);
+        Optional<Account> account=accountRepository.findById(accountId);
+        account.get().setUserRole(role);
+        accountRepository.save(account.get());
+        return true;
     }
 }

@@ -41,7 +41,7 @@ public class CategoryController {
         }
         return null;
     }
-    //	add category
+    //add category
     @GetMapping(value = "/add_category")
     public String addCategory(Model model) {
         model.addAttribute("category", new Category());

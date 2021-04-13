@@ -60,6 +60,7 @@
                         <div class="value">
                             <div class="input-group">
                                 <input class="input--style-5" th:type="email" th:field="*{email}">
+                                <span class="has-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red">></span>
                             </div>
                         </div>
                     </div>
@@ -76,6 +77,7 @@
                         <div class="value">
                             <div class="input-group">
                                 <input class="input--style-5" type="password" th:field="*{password}" id="pass">
+                                <span class="has-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red">></span>
                             </div>
                         </div>
                     </div>
@@ -83,30 +85,21 @@
                         <div class="name">Confirm password</div>
                         <div class="value">
                             <div class="input-group">
-                                <input class="input--style-5" type="password" id="conformpass">
-                                <p id="error" style="color: #ff0000"></p>
+                                <input class="input--style-5" type="password" th:field="*{passwordConfirm}"
+                                       placeholder="Confirm your password">
+                                <span class="has-error" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" style="color: red">></span>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <button class="btn btn--radius-2 btn--red" type="submit" onclick="confirm()">Register</button>
+                        <button class="btn btn--radius-2 btn--red" type="submit">Register</button>
                     </div>
+                    <p class="login-card-footer-text">Have an account<a href="/login" class="text-reset">Login here</a></p>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<script>
-    function confirm(){
-        const pass = document.getElementById("pass").value;
-
-        const conformpass = document.getElementById("conformpass").value;
-
-        if (pass !== conformpass) {
-            document.getElementById("error").innerHTML = 'confirm password not same password';
-        }
-    }
-</script>
 <!-- Jquery JS-->
 <script src="vendor/jquery/jquery.min.js"></script>
 <!-- Vendor JS-->
