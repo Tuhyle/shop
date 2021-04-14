@@ -57,4 +57,10 @@ public class Account implements Serializable {
 
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "updated_at")
+    private Date updateAt;
 }

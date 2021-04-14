@@ -9,18 +9,18 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserCreateRequest {
-
+public class UserEditRequest {
     private String firstName;
 
     private String lastName;
 
     private String mobile;
 
+    private MultipartFile photos;
+
+    private String address;
+
+    private String photo;
+
     private String email;
-
-    private String password;
-
-    private String passwordConfirm;
 }
-

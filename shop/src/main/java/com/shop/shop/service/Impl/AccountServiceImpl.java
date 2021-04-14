@@ -4,14 +4,15 @@ import com.shop.shop.common.CustomerNotFoundException;
 import com.shop.shop.common.ModelMapperUtils;
 import com.shop.shop.entity.Account;
 import com.shop.shop.entity.Cart;
-import com.shop.shop.entity.PhotoProduct;
 import com.shop.shop.entity.Product;
 import com.shop.shop.repository.AccountRepository;
 import com.shop.shop.repository.CartRepository;
+import com.shop.shop.request.ProductRequest;
 import com.shop.shop.request.UserCreateRequest;
+import com.shop.shop.request.UserEditRequest;
 import com.shop.shop.service.AccountService;
+import com.shop.shop.service.PhotoProductService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -22,22 +23,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import response.AccountDTO;
-import response.ProductDTO;
 
 import javax.transaction.Transactional;
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 @Transactional
 @Slf4j
 public class AccountServiceImpl implements AccountService {
 
-    @Autowired
-    AccountRepository userRepository;
+    private final AccountRepository userRepository;
+    private final CartRepository cartRepository;
+    private final PhotoProductService photoProductService;
 
-    @Autowired
-    CartRepository cartRepository;
+    public AccountServiceImpl(AccountRepository userRepository, CartRepository cartRepository, PhotoProductService photoProductService) {
+        this.userRepository = userRepository;
+        this.cartRepository = cartRepository;
+        this.photoProductService = photoProductService;
+    }
 
     @Override
     public void registerUser(UserCreateRequest userRequest) {
@@ -71,7 +74,6 @@ public class AccountServiceImpl implements AccountService {
         }catch (Exception e){
             log.error("Function : Create a new user fail");
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-
         }
     }
     private String getFileURL(String fileName) {
@@ -140,5 +142,43 @@ public class AccountServiceImpl implements AccountService {
 
         account.setResetPasswordToken(null);
         userRepository.save(account);
+    }
+
+    @Override
+    public AccountDTO editAccount(UserEditRequest accountDTO) {
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Account account = userRepository.findByEmail(authentication.getName());
+            account.setUpdateAt(new Date());
+            account.setId(account.getId());
+            setEdit(account, accountDTO);
+            Account save = userRepository.save(account);
+            AccountDTO accountDTO1 = ModelMapperUtils.map(save, AccountDTO.class);
+            if(account.getProfile()==null){
+                accountDTO.setPhoto(getFileURL("default.jpg"));
+            }else {
+                accountDTO.setPhoto(getFileURL(accountDTO.getPhoto()));
+            }
+            log.info("Function : Edit user success");
+            return accountDTO1;
+        }catch (Exception e){
+            log.error("Function : Edit user fail");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    private Account setEdit(Account account, UserEditRequest userEditRequest) {
+        if (!account.getFirstName().equals(userEditRequest.getFirstName())) {
+            account.setFirstName(userEditRequest.getFirstName());
+        }
+        if (!account.getLastName().equals(userEditRequest.getLastName())) {
+            account.setLastName(userEditRequest.getLastName());
+        }
+        if (!account.getAddress().equals(userEditRequest.getAddress())) {
+            account.setAddress(userEditRequest.getAddress());
+        }
+        if (!account.getMobile().equals(userEditRequest.getMobile())) {
+            account.setMobile(userEditRequest.getMobile());
+        }
+        return account;
     }
 }

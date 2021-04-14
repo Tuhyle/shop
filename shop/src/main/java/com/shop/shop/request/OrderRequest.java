@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -39,4 +41,8 @@ public class OrderRequest {
     private String address;
 
     private String content;
+
+    private Integer payment;
+
+    private String trangThai;
 }

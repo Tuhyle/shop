@@ -91,13 +91,5 @@ public class HomeController {
         }
         return "redirect:cart/cart-view";
     }
-    @GetMapping("/profile")
-    public String profile() {
-        return "/profile";
-    }
-    @PostMapping("/profile")
-    public String editprofile() {
-        return "/profile";
-    }
 }
 

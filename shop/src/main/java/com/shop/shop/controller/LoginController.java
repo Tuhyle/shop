@@ -1,10 +1,15 @@
 package com.shop.shop.controller;
 
 import com.shop.shop.common.UserValidator;
+import com.shop.shop.entity.Account;
+import com.shop.shop.repository.AccountRepository;
 import com.shop.shop.request.UserCreateRequest;
+import com.shop.shop.request.UserEditRequest;
 import com.shop.shop.service.AccountService;
 import com.shop.shop.service.userDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,12 +17,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import response.AccountDTO;
 
 @Controller
 @RequestMapping(value = "/")
 public class LoginController {
     @Autowired
     AccountService userService;
+
+    @Autowired
+    AccountRepository accountRepository;
 
     @Autowired
     userDetailsServiceImpl detailsService;
@@ -54,5 +64,30 @@ public class LoginController {
     @GetMapping(value = "/register")
     public String register(@ModelAttribute("userRequest") UserCreateRequest userRequest) {
         return "register";
+    }
+    private String getFileURL(String fileName) {
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/api/download/")
+                .path(fileName)
+                .toUriString();
+    }
+    @GetMapping("/profile")
+    public String editProfile(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Account account = accountRepository.findByEmail(authentication.getName());
+        UserEditRequest userCreateRequest=UserEditRequest.builder()
+                .firstName(account.getFirstName())
+                .email(account.getEmail())
+                .mobile(account.getMobile())
+                .lastName(account.getLastName())
+                .photo(getFileURL(account.getProfile()))
+                .build();
+        model.addAttribute("userCreateRequest",userCreateRequest);
+        return "/profile";
+    }
+    @PostMapping("/profile")
+    public String editProfile(@ModelAttribute("userCreateRequest") UserEditRequest userRequest, BindingResult bindingResult) {
+        userService.editAccount(userRequest);
+        return "/profile";
     }
 }

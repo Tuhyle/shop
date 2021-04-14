@@ -25,6 +25,15 @@ public class Order{
         private final int value;
         private final String name;
     }
+
+    @AllArgsConstructor
+    @Getter
+    public enum payment {
+        STATUS_PAYPAL(0, "PAYPAL"),
+        STATUS_MONEY(1, "MONEY");
+        private final int value;
+        private final String name;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -59,6 +68,12 @@ public class Order{
 
     @Column(name = "content")
     private String content;
+
+    @Column(name = "payment")
+    private Integer payment;
+
+    @Column(name = "trang_thai")
+    private String trangThai;
 
     @Column(name = "created_at")
     private Date createAt;
