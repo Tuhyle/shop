@@ -52,6 +52,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="account : ${accounts}">
+                    <form th:action="@{/admin/change-role}" method="post">
                     <td>
                         <img th:src="${account.photo}" width="60px" height="60px"/>
                     </td>
@@ -59,8 +60,14 @@
                     <td th:text="${account.lastName}"></td>
                     <td th:text="${account.mobile}"></td>
                     <td th:text="${account.email}"></td>
-                    <td th:text="${account.userRole}"></td>
+                    <td th:text="${account.userRole}">
+                        <select class="form-control" id="category"  th:selected="${account.userRole}">
+                                <option th:text="ROLE_EMPLOYEE" th:value="ROLE_EMPLOYEE"></option>
+                                <option th:text="ROLE_MANAGER" th:value="ROLE_MANAGER"></option>
+                        </select>
+                    </td>
                     <td><button type="button" class="btn btn-primary" href="">Primary</button></td>
+                    </form>
                 </tr>
                 </tbody>
             </table>

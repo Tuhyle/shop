@@ -5,9 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import response.OrderDTO;
+
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order,Integer> {
     Page<Order>  findAllByStatusAndAccountId(Integer status, Integer accountId, Pageable pageable);
+
+    Page<Order>  findAllByCreateAt_Date(Integer status, Integer accountId, Pageable pageable);
 }

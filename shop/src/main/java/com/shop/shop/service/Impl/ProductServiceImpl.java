@@ -207,7 +207,7 @@ public class ProductServiceImpl implements ProductService {
         }
         String str1 = en.format(product.get().getPrice()*(1-product.get().getDiscount()/100));
         String giaGiam = str1 + "VNĐ";
-        String price=en.format(productDTO.getPrice());
+        String price=en.format(product.get().getPrice());
         productDTO.setGia(price);
         productDTO.setGiaGiam(giaGiam);
         return productDTO;

@@ -16,6 +16,9 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import response.CartItemDTO;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 /**
  * @author Lê Thị Thúy
  * @created 3/17/2021
@@ -33,6 +36,9 @@ public class CartItemServiceImpl implements CartItemService {
     private final ProductRepository productRepository;
 
     private final PhotoProductRepository photoProductRepository;
+
+    Locale localeEN = new Locale("en", "EN");
+    NumberFormat en = NumberFormat.getInstance(localeEN);
 
     public CartItemServiceImpl(CartItemRepository cartItemRepository, AccountRepository accountRepository, CartRepository cartRepository, ProductRepository productRepository, PhotoProductRepository photoProductRepository) {
         this.cartItemRepository = cartItemRepository;
@@ -58,6 +64,12 @@ public class CartItemServiceImpl implements CartItemService {
             Page<CartItem> cartItems = cartItemRepository.findByCartId(cart.getId(), pageable);
             Page<CartItemDTO> cartItemDTOS = cartItems.map(cartItem -> {
                 CartItemDTO cartItemDTO = ModelMapperUtils.map(cartItem, CartItemDTO.class);
+                String total = en.format(cartItemDTO.getProduct().getPrice() *cartItemDTO.getQuantity()* (1 - cartItemDTO.getProduct().getDiscount()/ 100) );
+                String price=en.format(cartItemDTO.getProduct().getPrice());
+                String giam = en.format(cartItemDTO.getProduct().getPrice() * (1 - cartItemDTO.getProduct().getDiscount()/ 100) );
+                cartItemDTO.setTotal(total);
+                cartItemDTO.setGiam(giam);
+                cartItemDTO.setPrice(price);
                 PhotoProduct photoProduct = photoProductRepository.findAllByProductId(cartItemDTO.getProduct().getId());
                 if (photoProduct == null) {
                     cartItemDTO.setPhoto(getFileURL("default.jpg"));

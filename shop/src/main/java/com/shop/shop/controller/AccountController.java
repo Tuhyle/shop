@@ -34,11 +34,11 @@ public class AccountController {
     AccountRepository accountRepository;
 
     @GetMapping("/account")
-    public String getALl(Model model, @Param("search") String search, Pageable pageable,Integer id,String userRole) {
+    public String getALl(Model model, @Param("search") String search, Pageable pageable,Integer accountId,String userRole) {
         model.addAttribute("search", search);
         Page<AccountDTO> accountDTOS = accountService.getAll(search, pageable);
         model.addAttribute("accounts", accountDTOS);
-        model.addAttribute("id",id);
+        model.addAttribute("accountId",accountId);
         model.addAttribute("userRole",userRole);
         return "admin/account";
     }
@@ -50,12 +50,10 @@ public class AccountController {
         return "admin/account";
     }
     @PostMapping("/change-role")
-    public Boolean changeRole(Model model, Integer accountId,String role) {
-        model.addAttribute("accountId",accountId);
-        model.addAttribute("role",role);
+    public String changeRole(Model model, Integer accountId,String userRole) {
         Optional<Account> account=accountRepository.findById(accountId);
-        account.get().setUserRole(role);
+        account.get().setUserRole(userRole);
         accountRepository.save(account.get());
-        return true;
+        return "admin/account";
     }
 }

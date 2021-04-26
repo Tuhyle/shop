@@ -20,6 +20,7 @@
     <!-- ICONS -->
     <link rel="apple-touch-icon" sizes="76x76" th:href="@{/admin/assets/img/apple-icon.png}">
     <link rel="icon" type="image/png" sizes="96x96" th:href="@{/admin/assets/img/favicon.png}">
+    <link th:href="@{/dist/summernote-bs4.min.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -31,6 +32,7 @@
         <!-- MAIN CONTENT -->
         <div class="main-content">
             <div class="container-fluid">
+                <h2>Edit sản phẩm</h2>
                 <form id="quickForm" method="post" th:action="@{/admin/edit_product}" th:object="${productRequest}"
                       enctype="multipart/form-data">
                     <input type="text" class="form-control" style="display: none" th:field="*{id}">
@@ -67,10 +69,6 @@
                             <input type="number" class="form-control" th:field="*{quantity}">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">content</label>
-                            <input type="text" class="form-control" th:field="*{content}">
-                        </div>
-                        <div class="form-group">
                             <label for="exampleInputPassword1">Image</label>
                             <input type="file" th:src="*{photo}" id="file-uploader" accept=".jpg, .png" multiple class="form-control" th:field="*{photos}" width="60px" height="60px">
                         </div>
@@ -81,6 +79,12 @@
                                     <option th:text="${category1.name}" th:value="${category1.id}"></option>
                                 </th:block>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Content</label>
+                            <textarea type="text" cssClass="form-control"
+                                      id="summernote" name="editordata" placeholder="Enter Content"
+                                      path="content" th:field="*{content}"></textarea>
                         </div>
                     </div>
                     <!-- /.card-body -->
@@ -110,6 +114,7 @@
 <script th:src="@{/admin/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
 <script th:src="@{/admin/assets/vendor/chartist/js/chartist.min.js}"></script>
 <script th:src="@{/admin/assets/scripts/klorofil-common.js}"></script>
+<script th:src="@{/dist/summernote-bs4.min.js}"></script>
 
 <script>
     $(function () {
@@ -210,6 +215,11 @@
     fileUploader.addEventListener('change', (event) => {
         const files = event.target.files;
         console.log('files', files);
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#summernote').summernote();
     });
 </script>
 </body>
