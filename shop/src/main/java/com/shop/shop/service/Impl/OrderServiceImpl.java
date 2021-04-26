@@ -1,6 +1,7 @@
 package com.shop.shop.service.Impl;
 
 import com.shop.shop.common.ModelMapperUtils;
+import com.shop.shop.common.MyItem;
 import com.shop.shop.entity.*;
 import com.shop.shop.repository.*;
 import com.shop.shop.request.OrderRequest;
@@ -17,8 +18,11 @@ import response.OrderDTO;
 import response.ProductDTO;
 
 import javax.transaction.Transactional;
-import java.util.Date;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -87,6 +91,21 @@ public class OrderServiceImpl implements OrderService {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             Account account = accountRepository.findByEmail(authentication.getName());
             Page<Order> orderPage=orderRepository.findAllByStatusAndAccountId(status,account.getId(),pageable);
+            Page<OrderDTO> orderDTOS = orderPage.map(order -> ModelMapperUtils.map(order, OrderDTO.class));
+            log.info("getList order success");
+            return orderDTOS;
+        } catch (Exception e) {
+            log.error("getList order fail", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public Page<OrderDTO> getAllByUser(Pageable pageable) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Account account = accountRepository.findByEmail(authentication.getName());
+            Page<Order> orderPage=orderRepository.findAllByAccountId(account.getId(),pageable);
             Page<OrderDTO> orderDTOS = orderPage.map(order -> ModelMapperUtils.map(order, OrderDTO.class));
             log.info("getList order success");
             return orderDTOS;

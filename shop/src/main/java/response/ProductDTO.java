@@ -44,4 +44,6 @@ public class ProductDTO {
     private String giaGiam;
 
     private Category category;
+
+    private Date createAt;
 }

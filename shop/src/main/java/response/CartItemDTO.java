@@ -22,4 +22,7 @@ public class CartItemDTO {
     private Integer id;
     private String photo;
     private Integer quantity;
+    private String price;
+    private String giam;
+    private String total;
 }

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Test 2</title>
+</head>
+<body>
+
+<script th:inline="javascript">
+    window.onload = function() {
+        /*<![CDATA[*/
+
+        var pontos = /*[[${pontos}]]*/ 'default';
+
+        pontos.forEach(myFunction);
+        function myFunction(value, index, array) {
+            console.log(value);
+        }
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            theme: "light2",
+            title:{
+                text: "Line Sample"
+            },
+            axisY:{
+                includeZero: false
+            },
+            data: [{
+                type: "line",
+                dataPoints: []
+            }]
+        });
+        chart.render();
+
+        /*<![CDATA[*/
+        /* Update dataPoints from AJAX and render the chart*/
+        chart.options.data[0].dataPoints = pontos;
+        chart.render();
+        /*]]>*/
+
+    }
+</script>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+</body>
+</html>

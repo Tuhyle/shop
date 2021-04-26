@@ -1,9 +1,12 @@
 package response;
 
+import com.shop.shop.entity.OrderItem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -33,4 +36,6 @@ public class OrderDTO {
     private String content;
 
     private Integer status;
+
+    List<OrderItem>  orderItems;
 }

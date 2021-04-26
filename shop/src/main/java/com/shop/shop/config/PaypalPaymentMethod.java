@@ -1,0 +1,7 @@
+package com.shop.shop.config;
+
+public enum PaypalPaymentMethod {
+
+	credit_card, paypal
+	
+}

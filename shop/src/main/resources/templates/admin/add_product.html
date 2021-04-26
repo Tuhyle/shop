@@ -20,6 +20,8 @@
     <!-- ICONS -->
     <link rel="apple-touch-icon" sizes="76x76" th:href="@{/admin/assets/img/apple-icon.png}">
     <link rel="icon" type="image/png" sizes="96x96" th:href="@{/admin/assets/img/favicon.png}">
+    <!-- include summernote css/js -->
+    <link th:href="@{/dist/summernote-bs4.min.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -31,42 +33,35 @@
         <!-- MAIN CONTENT -->
         <div class="main-content">
             <div class="container-fluid">
+                <H2 style="align-content: center">THÊM SẢN PHẨM</H2>
                 <form id="quickForm" method="post" th:action="@{/admin/add_product}" th:object="${productRequest}"
                       enctype="multipart/form-data">
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Name Product</label>
+                            <label for="exampleInputEmail1">Tên sản phẩm</label>
                             <input type="text" class="form-control" required id="exampleInputEmail1" placeholder="Tên sản phẩm"
                                    th:field="*{name}">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">summary</label>
+                            <label for="exampleInputEmail1">Tóm tắt</label>
                             <input type="text" class="form-control" required placeholder="Tên sản phẩm" th:field="*{metaTitle}">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Title</label>
+                            <label for="exampleInputEmail1">Tiêu đề</label>
                             <input type="text" class="form-control" required placeholder="Tên sản phẩm" th:field="*{metaTitle}">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Type</label>
-                            <input type="number" class="form-control" required placeholder="type" th:field="*{type}">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Price</label>
+                            <label for="exampleInputPassword1">Giá</label>
                             <input type="number" class="form-control" required id="exampleInputPassword1" placeholder="Giá"
                                    th:field="*{price}">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Discount(Giảm giá)</label>
+                            <label for="exampleInputPassword1">Giảm giá</label>
                             <input type="number" class="form-control" required th:field="*{discount}">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Quantity</label>
                             <input type="number" class="form-control" required th:field="*{quantity}">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">content</label>
-                            <input type="text" class="form-control" required th:field="*{content}">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Image</label>
@@ -80,6 +75,13 @@
                                 </th:block>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Nội dung</label>
+                            <textarea type="text" cssClass="form-control"
+                                           id="summernote" name="editordata" placeholder="Enter Content"
+                                           path="content" th:field="*{content}"></textarea>
+                        </div>
+
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
@@ -109,6 +111,7 @@
 <script th:src="@{/admin/assets/vendor/chartist/js/chartist.min.js}"></script>
 <script th:src="@{/admin/assets/scripts/klorofil-common.js}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
+<script th:src="@{/dist/summernote-bs4.min.js}"></script>
 
 <script>
     $(function () {
@@ -201,6 +204,11 @@
 
         new Chartist.Line('#multiple-chart', data, options);
 
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#summernote').summernote();
     });
 </script>
 </body>

@@ -1,5 +1,6 @@
 package com.shop.shop.controller;
 
+import com.shop.shop.common.UserValidator;
 import com.shop.shop.entity.Account;
 import com.shop.shop.entity.Cart;
 import com.shop.shop.entity.CartItem;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import response.CartItemDTO;
 import response.ProductDTO;
 
 import java.util.List;
@@ -90,6 +90,14 @@ public class HomeController {
             cartItemRepository.save(cartItem);
         }
         return "redirect:cart/cart-view";
+    }
+
+
+    @Autowired
+    private UserValidator userValidator;
+    @GetMapping  ("/table")
+    public String login(Model model, String error, String logout) {
+        return "admin1/data";
     }
 }
 

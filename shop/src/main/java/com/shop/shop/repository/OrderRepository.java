@@ -10,4 +10,6 @@ import response.OrderDTO;
 @Repository
 public interface OrderRepository extends JpaRepository<Order,Integer> {
     Page<Order>  findAllByStatusAndAccountId(Integer status, Integer accountId, Pageable pageable);
+
+    Page<Order>  findAllByAccountId(Integer accountId, Pageable pageable);
 }

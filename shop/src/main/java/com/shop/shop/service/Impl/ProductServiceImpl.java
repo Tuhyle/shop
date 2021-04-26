@@ -1,11 +1,8 @@
 package com.shop.shop.service.Impl;
 
 import com.shop.shop.common.ModelMapperUtils;
-import com.shop.shop.entity.PhotoProduct;
-import com.shop.shop.entity.Product;
-import com.shop.shop.repository.CategoryRepository;
-import com.shop.shop.repository.PhotoProductRepository;
-import com.shop.shop.repository.ProductRepository;
+import com.shop.shop.entity.*;
+import com.shop.shop.repository.*;
 import com.shop.shop.request.ProductRequest;
 import com.shop.shop.service.PhotoProductService;
 import com.shop.shop.service.ProductService;
@@ -13,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -33,14 +32,23 @@ public class ProductServiceImpl implements ProductService {
 
     private final PhotoProductService photoProductService;
 
+    private final CartItemRepository cartItemRepository;
+
+    private final OrderItemRepository orderItemRepository ;
+
+    private final AccountRepository accountRepository ;
+
     Locale localeEN = new Locale("en", "EN");
     NumberFormat en = NumberFormat.getInstance(localeEN);
 
-    public ProductServiceImpl(ProductRepository productRepository, PhotoProductRepository photoProductRepository, CategoryRepository categoryRepository, PhotoProductService photoProductService) {
+    public ProductServiceImpl(ProductRepository productRepository, PhotoProductRepository photoProductRepository, CategoryRepository categoryRepository, PhotoProductService photoProductService, CartItemRepository cartItemRepository, OrderItemRepository orderItemRepository, AccountRepository accountRepository) {
         this.productRepository = productRepository;
         this.photoProductRepository = photoProductRepository;
         this.categoryRepository = categoryRepository;
         this.photoProductService = photoProductService;
+        this.cartItemRepository = cartItemRepository;
+        this.orderItemRepository = orderItemRepository;
+        this.accountRepository = accountRepository;
     }
 
     private String getFileURL(String fileName) {
@@ -149,9 +157,6 @@ public class ProductServiceImpl implements ProductService {
         if (!product.getSummary().equals(productRequest.getSummary())) {
             product.setSummary(productRequest.getSummary());
         }
-        if (!product.getType().equals(productRequest.getType())) {
-            product.setType(productRequest.getType());
-        }
         if (!product.getPrice().equals(productRequest.getPrice())) {
             product.setPrice(productRequest.getPrice());
         }
@@ -207,7 +212,7 @@ public class ProductServiceImpl implements ProductService {
         }
         String str1 = en.format(product.get().getPrice()*(1-product.get().getDiscount()/100));
         String giaGiam = str1 + "VNĐ";
-        String price=en.format(productDTO.getPrice());
+        String price=en.format(product.get().getPrice());
         productDTO.setGia(price);
         productDTO.setGiaGiam(giaGiam);
         return productDTO;
@@ -248,33 +253,34 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-//    @Override
-//    public List<ProductDTO> search2(String search) {
-//        try {
-//            List<Product> productPage;
-//            if (search != null) {
-//                productPage=productRepository.search2(search);
-//            }else {
-//                productPage=productRepository.findAll();
-//            }
-//            List<ProductDTO> productDTOS=new ArrayList<>();
-//            for (Product item:productPage) {
-//                ProductDTO productDTO = ModelMapperUtils.map(item, ProductDTO.class);
-//                PhotoProduct photoProduct = photoProductRepository.findAllByProductId(item.getId());
-//                if(photoProduct==null){
-//                    productDTO.setPhoto(getFileURL("default.jpg"));
-//                }else {
-//                    productDTO.setPhoto(getFileURL(photoProduct.getFileName()));
-//                }
-//                String giaGiam=productDTO.getPrice()*(1-productDTO.getDiscount())/100+ "$";
-//                productDTO.setGiaGiam(giaGiam);
-//                productDTOS.add(productDTO);
-//            }
-//            log.info("getList product success");
-//            return productDTOS;
-//        } catch (Exception e) {
-//            log.error("getList product fail", e);
-//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @Override
+    public Page<ProductDTO> findByUser(Integer status, Pageable pageable) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Account account = accountRepository.findByEmail(authentication.getName());
+            Page<Product> productPage=productRepository.findByUserId(account.getId(),status,pageable);
+            Page<ProductDTO> productDTOS = productPage.map(product -> {
+                ProductDTO productDTO = ModelMapperUtils.map(product, ProductDTO.class);
+                PhotoProduct photoProduct = photoProductRepository.findAllByProductId(productDTO.getId());
+                if(photoProduct==null){
+                    productDTO.setPhoto(getFileURL("default.jpg"));
+                }else {
+                    productDTO.setPhoto(getFileURL(photoProduct.getFileName()));
+                }
+                String str1 = en.format(productDTO.getPrice() * (1 - productDTO.getDiscount()/ 100) );
+                String giaGiam = str1 + "VNĐ";
+                String price=en.format(productDTO.getPrice());
+                productDTO.setGia(price);
+                productDTO.setGiaGiam(giaGiam);
+                return productDTO;
+            });
+            log.info("getList product success");
+            return productDTOS;
+        } catch (Exception e) {
+            log.error("getList product fail", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }
