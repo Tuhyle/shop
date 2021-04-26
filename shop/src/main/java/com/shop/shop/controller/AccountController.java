@@ -9,10 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import response.AccountDTO;
 import response.ProductDTO;
@@ -34,12 +31,10 @@ public class AccountController {
     AccountRepository accountRepository;
 
     @GetMapping("/account")
-    public String getALl(Model model, @Param("search") String search, Pageable pageable,Integer accountId,String userRole) {
+    public String getALl(Model model, @Param("search") String search, Pageable pageable) {
         model.addAttribute("search", search);
         Page<AccountDTO> accountDTOS = accountService.getAll(search, pageable);
         model.addAttribute("accounts", accountDTOS);
-        model.addAttribute("accountId",accountId);
-        model.addAttribute("userRole",userRole);
         return "admin/account";
     }
     @PostMapping("/edit-role")
@@ -50,9 +45,10 @@ public class AccountController {
         return "admin/account";
     }
     @PostMapping("/change-role")
-    public String changeRole(Model model, Integer accountId,String userRole) {
-        Optional<Account> account=accountRepository.findById(accountId);
-        account.get().setUserRole(userRole);
+    public String changeRole(@RequestParam("role") String role,
+                             @RequestParam("id") Integer id) {
+        Optional<Account> account=accountRepository.findById(id);
+        account.get().setUserRole(role);
         accountRepository.save(account.get());
         return "admin/account";
     }

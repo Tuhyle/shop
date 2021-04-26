@@ -1,5 +1,6 @@
 package com.shop.shop.controller;
 
+import com.shop.shop.common.MyItem;
 import com.shop.shop.entity.CartItem;
 import com.shop.shop.entity.Order;
 import com.shop.shop.entity.PhotoProduct;
@@ -9,6 +10,7 @@ import com.shop.shop.repository.CategoryRepository;
 import com.shop.shop.repository.PhotoProductRepository;
 import com.shop.shop.repository.ProductRepository;
 import com.shop.shop.request.ProductRequest;
+import com.shop.shop.service.OrderItemService;
 import com.shop.shop.service.OrderService;
 import com.shop.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import response.OrderDTO;
 import response.ProductDTO;
 
+import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +51,9 @@ public class ProductController {
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    OrderItemService orderItemService;
 
     @GetMapping("/product_view")
     public String createProduct(Model model, @Param("search") String search, Pageable pageable) {
@@ -75,7 +84,6 @@ public class ProductController {
                 .name(product.get().getName())
                 .metaTitle(product.get().getMetaTitle())
                 .summary(product.get().getSummary())
-                .type(product.get().getType())
                 .price(product.get().getPrice())
                 .discount(product.get().getDiscount())
                 .quantity(product.get().getQuantity())
@@ -126,5 +134,14 @@ public class ProductController {
         }
         productRepository.deleteById(productId);
         return "redirect:/admin/product_view";
+    }
+
+    @RequestMapping(value = "receipt", method = RequestMethod.GET)
+    public String viewReceipt(ModelMap mm, HttpSession session) {
+        Date date=new Date();
+        List<MyItem> listItem = orderItemService.reportReceipt(date, 7);
+        System.out.println(listItem.toString());
+        mm.put("listReceipt", listItem);
+        return "admin/line";
     }
 }

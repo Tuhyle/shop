@@ -5,8 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import response.ProductDTO;
 
-import java.util.List;
-
 public interface ProductService {
     Page<ProductDTO> search(String search, Pageable pageable);
     ProductDTO create(ProductRequest productRequest);
@@ -14,4 +12,6 @@ public interface ProductService {
     Page<ProductDTO> searchByCategory(Pageable pageable, Integer categoryId);
     ProductDTO detail(Integer productId);
     Page<ProductDTO> search2(String search, Integer categoryId, Pageable pageable);
+
+    Page<ProductDTO> findByUser(Integer status,Pageable pageable);
 }

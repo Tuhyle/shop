@@ -38,6 +38,31 @@
     <!-- Modernizr JS -->
     <!-- Modernizr JS -->
     <script th:src="@{/js/vendor/modernizr-3.5.0.min.js}"></script>
+    <style type="text/css">
+        #menu ul {
+            background: #fb99bf;
+            width: 250px;
+            padding: 0;
+            list-style-type: none;
+            text-align: left;
+        }
+        #menu li {
+            width: auto;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #e8e8e8;
+            padding: 0 1em;
+        }
+        #menu li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            display: block;
+        }
+        #menu li:hover {
+            background: #CDE2CD;
+        }
+    </style>
 </head>
 
 <body>
@@ -150,134 +175,163 @@
     <!-- End Bradcaump area -->
     <!-- cart-main-area start -->
     <!--Main layout-->
-    <div class="container mt-3">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#STATUS_WAIT_GOOD">Chờ xác nhận</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#STATUS_WAIT_GOOD">Chờ lấy hàng</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#STATUS_DELIVERY_PROGRESS">Đang giao</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#STATUS_DELIVERY">Đã nhận</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#STATUS_CANCELLED">Đã hủy</a>
-            </li>
+<!--    <div class="container mt-3">-->
+<!--        &lt;!&ndash; Nav tabs &ndash;&gt;-->
+<!--        <ul class="nav nav-tabs">-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link active" data-toggle="tab" href="#STATUS_WAIT_GOOD">Chờ xác nhận</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" data-toggle="tab" href="#STATUS_WAIT_GOOD">Chờ lấy hàng</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" data-toggle="tab" href="#STATUS_DELIVERY_PROGRESS">Đang giao</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" data-toggle="tab" href="#STATUS_DELIVERY">Đã nhận</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" data-toggle="tab" href="#STATUS_CANCELLED">Đã hủy</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+
+<!--        &lt;!&ndash; Tab panes &ndash;&gt;-->
+<!--        <div class="tab-content">-->
+<!--            <div id="STATUS_WAIT_CONFIRM" class="container tab-pane active"><br>-->
+<!--                <table class="table table-striped table-hover table-bordered">-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th>Mã đơn hàng</th>-->
+<!--                        <th>Tổng tiền</th>-->
+<!--                        <th>Địa chỉ</th>-->
+<!--                        <th>Chi tiết</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    <tr th:each="order : ${orderDTOS}">-->
+
+<!--                        <td th:text="${order.id}"></td>-->
+<!--                        <td th:text="${order.grandTotal}"></td>-->
+<!--                        <td th:text="${order.address}"></td>-->
+<!--                        <td></td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--            <div id="STATUS_WAIT_GOOD" class="container tab-pane fade"><br>-->
+<!--                <table class="table table-striped table-hover table-bordered">-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th>Mã đơn hàng</th>-->
+<!--                        <th>Tổng tiền</th>-->
+<!--                        <th>Địa chỉ</th>-->
+<!--                        <th>Chi tiết</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    <tr th:each="order : ${orderDTOS1}">-->
+
+<!--                        <td th:text="${order.id}"></td>-->
+<!--                        <td th:text="${order.grandTotal}"></td>-->
+<!--                        <td th:text="${order.address}"></td>-->
+<!--                        <td></td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--            <div id="STATUS_DELIVERY_PROGRESS" class="container tab-pane fade"><br>-->
+<!--                <table class="table table-striped table-hover table-bordered">-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th>Mã đơn hàng</th>-->
+<!--                        <th>Tổng tiền</th>-->
+<!--                        <th>Địa chỉ</th>-->
+<!--                        <th>Chi tiết</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    <tr th:each="order : ${orderDTOS2}">-->
+
+<!--                        <td th:text="${order.id}"></td>-->
+<!--                        <td th:text="${order.grandTotal}"></td>-->
+<!--                        <td th:text="${order.address}"></td>-->
+<!--                        <td></td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--            <div id="STATUS_DELIVERY" class="container tab-pane fade"><br>-->
+<!--                <table class="table table-striped table-hover table-bordered">-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th>Mã đơn hàng</th>-->
+<!--                        <th>Tổng tiền</th>-->
+<!--                        <th>Địa chỉ</th>-->
+<!--                        <th>Chi tiết</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    <tr th:each="order : ${orderDTOS3}">-->
+
+<!--                        <td th:text="${order.id}"></td>-->
+<!--                        <td th:text="${order.grandTotal}"></td>-->
+<!--                        <td th:text="${order.address}"></td>-->
+<!--                        <td></td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--            <div id="STATUS_CANCELLED" class="container tab-pane fade"><br>-->
+<!--                <h3>Menu 2</h3>-->
+<!--                <table class="table table-striped table-hover table-bordered">-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th>Mã đơn hàng</th>-->
+<!--                        <th>Tổng tiền</th>-->
+<!--                        <th>Địa chỉ</th>-->
+<!--                        <th>Chi tiết</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    <tr th:each="order : ${orderDTOS4}">-->
+
+<!--                        <td th:text="${order.id}"></td>-->
+<!--                        <td th:text="${order.grandTotal}"></td>-->
+<!--                        <td th:text="${order.address}"></td>-->
+<!--                        <td></td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class="htc__category" id="menu">
+        <h4 class="title__line--4">categories</h4>
+        <ul class="ht__cat__list">
+            <li><a th:href="@{/order/history_user/(status=0)}"></a></li>
+            <li><a th:href="@{/product-grid(categoryId=1)}"></a></li>
+            <li><a th:href="@{/product-grid(categoryId=2)}"></a></li>
+            <li><a th:href="@{/product-grid(categoryId=3)}"></a></li>
+            <li><a th:href="@{/product-grid(categoryId=4)}"></a></li>
         </ul>
-
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div id="STATUS_WAIT_CONFIRM" class="container tab-pane active"><br>
-                <table class="table table-striped table-hover table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Mã đơn hàng</th>
-                        <th>Tổng tiền</th>
-                        <th>Địa chỉ</th>
-                        <th>Chi tiết</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="order : ${orderDTOS}">
-
-                        <td th:text="${order.id}"></td>
-                        <td th:text="${order.grandTotal}"></td>
-                        <td th:text="${order.address}"></td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                </table>
+    </div>
+    <div class="main">
+        <div class="imgage common" id="mota">
+            <div class="imgage a" id="anh">
+                <img src="./imges/anns-store-301936.jpg">
             </div>
-            <div id="STATUS_WAIT_GOOD" class="container tab-pane fade"><br>
-                <table class="table table-striped table-hover table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Mã đơn hàng</th>
-                        <th>Tổng tiền</th>
-                        <th>Địa chỉ</th>
-                        <th>Chi tiết</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="order : ${orderDTOS1}">
-
-                        <td th:text="${order.id}"></td>
-                        <td th:text="${order.grandTotal}"></td>
-                        <td th:text="${order.address}"></td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="name_product a">
+                <a>Áo bra</a>
             </div>
-            <div id="STATUS_DELIVERY_PROGRESS" class="container tab-pane fade"><br>
-                <table class="table table-striped table-hover table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Mã đơn hàng</th>
-                        <th>Tổng tiền</th>
-                        <th>Địa chỉ</th>
-                        <th>Chi tiết</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="order : ${orderDTOS2}">
-
-                        <td th:text="${order.id}"></td>
-                        <td th:text="${order.grandTotal}"></td>
-                        <td th:text="${order.address}"></td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div id="STATUS_DELIVERY" class="container tab-pane fade"><br>
-                <table class="table table-striped table-hover table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Mã đơn hàng</th>
-                        <th>Tổng tiền</th>
-                        <th>Địa chỉ</th>
-                        <th>Chi tiết</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="order : ${orderDTOS3}">
-
-                        <td th:text="${order.id}"></td>
-                        <td th:text="${order.grandTotal}"></td>
-                        <td th:text="${order.address}"></td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div id="STATUS_CANCELLED" class="container tab-pane fade"><br>
-                <h3>Menu 2</h3>
-                <table class="table table-striped table-hover table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Mã đơn hàng</th>
-                        <th>Tổng tiền</th>
-                        <th>Địa chỉ</th>
-                        <th>Chi tiết</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="order : ${orderDTOS4}">
-
-                        <td th:text="${order.id}"></td>
-                        <td th:text="${order.grandTotal}"></td>
-                        <td th:text="${order.address}"></td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+        </div>
+        <div class="price_product common">
+            <span class="price panda">Giá: 150,000VNĐ</span>
+            <span class="quantity panda">Số lương: 2</span>
+            <span class="date panda">Ngày mua: 2021-01-26</span>
+            <span class="total panda">Tổng tiền: 300,000VNĐ</span>
+        </div>
+        <div class="detail common">
+            <a href="#">Xem chi tiết sản phẩm</a>
         </div>
     </div>
     <!--Main layout-->

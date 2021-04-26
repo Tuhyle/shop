@@ -27,9 +27,6 @@ public class Product{
     @Column(name = "summary")
     private String summary;
 
-    @Column(name = "type")
-    private Integer type;
-
     @Column(name = "price")
     private Double price;
 
@@ -60,4 +57,8 @@ public class Product{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "warehouse_id", nullable = false)
+    private WareHome wareHome;
 }

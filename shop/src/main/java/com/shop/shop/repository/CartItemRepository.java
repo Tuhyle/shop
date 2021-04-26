@@ -1,6 +1,7 @@
 package com.shop.shop.repository;
 
 import com.shop.shop.entity.CartItem;
+import com.shop.shop.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,8 +21,5 @@ public interface CartItemRepository extends JpaRepository<CartItem, Integer> {
     List<CartItem> findAllByCartId(Integer cartId);
 
     List<CartItem> findAllByProductId(Integer cartId);
-
-    @Query(value = "SELECT count(*) FROM receipt WHERE DATE_FORMAT(receiptDate,'%Y-%m-%d') = :date", nativeQuery = true)
-    List<CartItem> findAllByCreateAt_Date(Date date);
 
 }

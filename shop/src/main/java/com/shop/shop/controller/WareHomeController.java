@@ -1,7 +1,5 @@
 package com.shop.shop.controller;
 
-import com.shop.shop.entity.CartItem;
-import com.shop.shop.entity.PhotoProduct;
 import com.shop.shop.entity.Product;
 import com.shop.shop.entity.WareHome;
 import com.shop.shop.repository.ProductRepository;
@@ -89,11 +87,11 @@ public class WareHomeController {
     @GetMapping(value = "/delete_warehouse/{id}")
     public String deleteProduct(@PathVariable("id") Integer id, Model model) {
         Optional<WareHome> warehouse=wareHouseRepository.findById(id);
-        List<Product> products=productRepository.f(productId);
-        for (CartItem item: cartItemList) {
-            cartItemRepository.deleteById(item.getId());
+        List<Product> products=productRepository.findAllByWareHomeId(id);
+        for (Product item: products) {
+            productRepository.deleteById(item.getId());
         }
-        productRepository.deleteById(productId);
-        return "redirect:/admin/product_view";
+        wareHouseRepository.deleteById(id);
+        return "redirect:/admin/warehouseList";
     }
 }

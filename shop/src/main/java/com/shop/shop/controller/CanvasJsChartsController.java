@@ -8,7 +8,9 @@ import java.util.List;
 
 import com.shop.shop.common.Ponto;
 import com.shop.shop.entity.CartItem;
+import com.shop.shop.entity.OrderItem;
 import com.shop.shop.repository.CartItemRepository;
+import com.shop.shop.repository.OrderItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,17 +22,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/")
 public class CanvasJsChartsController {
 	@Autowired
-	CartItemRepository cartItemRepository;
+	OrderItemRepository orderItemRepository;
     @RequestMapping(value = "/plot", method = RequestMethod.GET)
     public String getDataPlot(ModelMap model) throws IOException {
 
         List<Ponto> pontos = new ArrayList<>();
 
-		for(int i=2015 ; i< LocalDate.now().getYear();i++){
-//			List<CartItem> cartItems=cartItemRepository.findAllByCreateAtYear(i);
-//			Ponto ponto = new Ponto();
-//			ponto.setX(i);
-//			ponto.setY(cartItems.size());
+		for(int i=2015 ; i<= LocalDate.now().getYear();i++){
+			List<OrderItem> orderItems=orderItemRepository.findAllByCreateAtYear(i);
+			Ponto ponto = new Ponto();
+			ponto.setX(i);
+			ponto.setY(orderItems.size());
+			pontos.add(ponto);
 		}
         model.addAttribute("pontos", pontos);
 
