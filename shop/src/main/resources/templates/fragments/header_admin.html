@@ -1,9 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<head>
-    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
-
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
 <body>
 <!-- Start Header Style -->
 <header id="htc__header" class="htc__header__area header--one" th:fragment="header">
@@ -23,7 +19,7 @@
     <div id="sidebar-nav" class="sidebar">
         <div class="sidebar-scroll">
             <nav>
-                <ul class="nav">
+                <ul class="nav box">
                     <li><a href="/"  class="tab active"><i class="lnr lnr-home"></i> <span>Trang Chủ</span></a></li>
                     <li><a href="/admin/product_view" class="tab"> <span>Product</span></a></li>
                     <li><a href="/admin/categoryList" class="tab"> <span>Category</span></a></li>

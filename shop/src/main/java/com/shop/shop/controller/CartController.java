@@ -4,6 +4,7 @@ import com.shop.shop.repository.CartItemRepository;
 import com.shop.shop.request.AddCartRequest;
 import com.shop.shop.service.CartItemService;
 import com.shop.shop.service.CartService;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,6 +47,8 @@ public  class CartController {
             direction = Sort.Direction.DESC) Pageable pageable) {
         Page<CartItemDTO> cartItemDTOS =cartItemService.getAllProductByCart(pageable);
         model.addAttribute("cartItemDTOS",cartItemDTOS);
+        final val totalPages = cartItemDTOS.getTotalPages();
+        model.addAttribute("quantity", totalPages);
         return "cart";
     }
     @GetMapping(value = "/menu")

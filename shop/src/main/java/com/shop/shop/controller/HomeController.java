@@ -1,5 +1,6 @@
 package com.shop.shop.controller;
 
+import com.shop.shop.common.UserValidator;
 import com.shop.shop.entity.Account;
 import com.shop.shop.entity.Cart;
 import com.shop.shop.entity.CartItem;
@@ -90,6 +91,14 @@ public class HomeController {
             cartItemRepository.save(cartItem);
         }
         return "redirect:cart/cart-view";
+    }
+
+
+    @Autowired
+    private UserValidator userValidator;
+    @GetMapping  ("/table")
+    public String login(Model model, String error, String logout) {
+        return "admin1/data";
     }
 }
 

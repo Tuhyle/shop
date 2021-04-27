@@ -68,12 +68,6 @@ public class OrderController {
         OrderDTO orderDTO = orderService.createOrderByUser(orderRequest);
         return "redirect:/order/history";
     }
-    private String getFileURL(String fileName) {
-        return ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/api/download/")
-                .path(fileName)
-                .toUriString();
-    }
     @GetMapping("/history_user/{status}")
     public String historyByUser(Model model, Pageable pageable,@PathVariable("status") int status) {
         Page<OrderDTO> orderDTOS = orderService.getAllByStatus(status, pageable);
@@ -83,9 +77,24 @@ public class OrderController {
         return "history-order";
     }
     @GetMapping("/history")
-    public String history(Model model, Pageable pageable, int status) {
-        Page<OrderDTO> orderDTOS = orderService.getAllByStatus(status, pageable);
+    public String history(Model model, Pageable pageable) {
+        Page<OrderDTO> orderDTOS = orderService.getAllByUser(pageable);
         model.addAttribute("orderDTOS", orderDTOS);
+
+        Page<ProductDTO> productDTO0 = productService.findByUser(0,pageable);
+        model.addAttribute("productDTO0", productDTO0);
+
+        Page<ProductDTO> productDTO1 = productService.findByUser(1,pageable);
+        model.addAttribute("productDTO1", productDTO1);
+
+        Page<ProductDTO> productDTOS2 = productService.findByUser(2,pageable);
+        model.addAttribute("productDTOS2", productDTOS2);
+
+        Page<ProductDTO> productDTOS3 = productService.findByUser(3,pageable);
+        model.addAttribute("productDTOS3", productDTOS3);
+
+        Page<ProductDTO> productDTOS4 = productService.findByUser(4,pageable);
+        model.addAttribute("productDTOS4", productDTOS4);
         return "history-order";
     }
 }

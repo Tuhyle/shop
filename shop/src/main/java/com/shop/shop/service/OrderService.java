@@ -10,4 +10,5 @@ public interface OrderService {
 
     Page<OrderDTO> getAllByStatus(Integer status, Pageable pageable);
 
+    Page<OrderDTO> getAllByUser(Pageable pageable);
 }

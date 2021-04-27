@@ -99,4 +99,19 @@ public class OrderServiceImpl implements OrderService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Override
+    public Page<OrderDTO> getAllByUser(Pageable pageable) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Account account = accountRepository.findByEmail(authentication.getName());
+            Page<Order> orderPage=orderRepository.findAllByAccountId(account.getId(),pageable);
+            Page<OrderDTO> orderDTOS = orderPage.map(order -> ModelMapperUtils.map(order, OrderDTO.class));
+            log.info("getList order success");
+            return orderDTOS;
+        } catch (Exception e) {
+            log.error("getList order fail", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
