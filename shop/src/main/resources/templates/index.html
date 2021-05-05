@@ -148,16 +148,25 @@
     <div class="row">
         <div class="col-xs-12">
             <ul class="htc__pagenation">
-                <li class="page-item active"><a class="page-link" href="/home/?page=0">Trước</a></li>
-                <li class="page-item"><a class="page-link" href="/home/?page=1">1</a></li>
-                <li class="page-item"><a class="page-link" href="/home/?page=2">2</a></li>
-                <li class="page-item"><a class="page-link" href="/home/?page=3">3</a></li>
-                <li class="page-item"><a class="page-link" href="/home/?page=4">4</a></li>
-                <li class="page-item"><a class="page-link" href="/home/?page=5">5</a></li>
-                <li class="page-item"><a class="page-link" href="/home/?page=6">Sau</a></li>
+                <li class="page-item active" th:if="${products.hasPrevious()}">
+                    <a th:href="@{/home(page=${products.number - 1},size=${products.size})}" aria-label="Previous" class="page-link">
+                        Trước
+                    </a>
+                </li>
+                <th:block th:each="i: ${#numbers.sequence(0, products.totalPages - 1)}">
+                    <li class="page-item" th:if="${products.number == i}">
+                        <a class="page-link" href="#">[[${i}+1]]</a>
+                    </li>
+                    <li th:unless="${products.number == i}">
+                        <a class="page-link" th:href="@{/home(page=${i},size=${products.size})}">[[${i}+1]]</a>
+                    </li>
+                </th:block>
+                <li class="page-item" th:if="${products.hasNext()}">
+                    <a class="page-link" th:href="@{/home(page=${products.number+1},size=${products.size})}"
+                       aria-label="Next">Sau</a>
+                </li>
             </ul>
         </div>
-
     </div>
     <!-- End Category Area -->
     <!-- End Banner Area -->

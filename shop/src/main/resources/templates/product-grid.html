@@ -306,6 +306,29 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <ul class="htc__pagenation">
+                                <li class="page-item active" th:if="${products.hasPrevious()}">
+                                    <a th:href="@{/home(page=${products.number - 1},size=${products.size})}" aria-label="Previous" class="page-link">
+                                        Trước
+                                    </a>
+                                </li>
+                                <th:block th:each="i: ${#numbers.sequence(0, products.totalPages - 1)}">
+                                    <li class="page-item" th:if="${products.number == i}">
+                                        <a class="page-link" href="#">[[${i}+1]]</a>
+                                    </li>
+                                    <li th:unless="${products.number == i}">
+                                        <a class="page-link" th:href="@{/home(page=${i},size=${products.size})}">[[${i}+1]]</a>
+                                    </li>
+                                </th:block>
+                                <li class="page-item" th:if="${products.hasNext()}">
+                                    <a class="page-link" th:href="@{/home(page=${products.number+1},size=${products.size})}"
+                                       aria-label="Next">Sau</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                     <!-- End Pagenation -->
                 </div>
                 <div class="col-lg-3 col-lg-pull-9 col-md-3 col-md-pull-9 col-sm-12 col-xs-12 smt-40 xmt-40">
