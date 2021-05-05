@@ -73,7 +73,7 @@ public class OrderController {
         Page<OrderDTO> orderDTOS = orderService.getAllByStatus(status, pageable);
         Page<ProductDTO> productDTOS = productService.findByUser(status,pageable);
         model.addAttribute("orderDTOS", orderDTOS);
-        model.addAttribute("productList", productDTOS);
+        model.addAttribute("productDTOS", productDTOS);
         return "history-order";
     }
     @GetMapping("/history")
